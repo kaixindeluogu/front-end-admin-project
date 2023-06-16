@@ -13,11 +13,11 @@ const routes = [
     children:[
       {
         path: 'about',// /home/about
-        component: () => import('../views/AboutView.vue')
+        component: () => import('../views/slideshow/AboutView.vue')
       },
       {
         path: 'other',// /home/other
-        component: () => import('../views/OtherView.vue')
+        component: () => import('../views/slideshow/OtherView.vue')
       },
     ]
   },
