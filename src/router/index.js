@@ -25,7 +25,7 @@ const routes = [
 
       {
         path: 'dataStatistics',
-        component: () => import(/* webpackChunkName: "about" */ '../views/DataStatisticsView.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/datastatisticsview/DataStatisticsView.vue')
       },
       {
         path: 'book',
