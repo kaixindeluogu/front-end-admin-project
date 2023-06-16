@@ -9,7 +9,6 @@ const routes = [
     path: '/home',
     component: HomeView,
     redirect: '/home/about',//重定向
-
     children:[
       {
         path: 'about',// /home/about
@@ -20,11 +19,8 @@ const routes = [
         component: () => import('../views/slideshow/OtherView.vue')
       },
       {
-        path: 'book',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/BookManagement/BookView.vue')
+        path: '/home/report',// /home/report
+        component: () => import('../views/reportManagement/ReportView.vue')
       }
     ]
   },

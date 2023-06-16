@@ -38,6 +38,10 @@
               <i class="el-icon-setting"></i>
               <span slot="title">导航四</span>
             </el-menu-item>
+            <el-menu-item index="report">
+              <i class="el-icon-setting"></i>
+              <span slot="title">举报信息管理</span>
+            </el-menu-item>
           </el-menu>
         </el-aside>
         <el-main class="main">
