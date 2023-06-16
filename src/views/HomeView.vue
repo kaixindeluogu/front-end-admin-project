@@ -30,7 +30,7 @@
 
 
             <el-menu-item index="book">
-              <i class="el-icon-share"></i>
+              <i class="el-icon-reading"></i>
               <span>图书管理</span>
             </el-menu-item>
 
