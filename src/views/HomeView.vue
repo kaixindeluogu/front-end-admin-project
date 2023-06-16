@@ -23,9 +23,9 @@
                 <el-menu-item index="/home/other">轮播图管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-menu-item index="2">
+            <el-menu-item index="/home/account">
               <i class="el-icon-menu"></i>
-              <span slot="title">导航二</span>
+              <span slot="title">账户管理</span>
             </el-menu-item>
 
 
