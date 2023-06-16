@@ -2,7 +2,7 @@
   <div>
     <el-container>
       <el-header class="header">
-        <h1>Xxx管理系统</h1>
+        <h1>纸片图书管理系统</h1>
       </el-header>
       <el-container class="body">
         <el-aside class="aside">
@@ -16,11 +16,11 @@
             <el-submenu index="1">
               <template slot="title">
                 <i class="el-icon-location"></i>
-                <span>导航一</span>
+                <span>轮播管理</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item index="/home/about">About</el-menu-item>
-                <el-menu-item index="/home/other">Other</el-menu-item>
+                <el-menu-item index="/home/about">轮播图添加</el-menu-item>
+                <el-menu-item index="/home/other">轮播图管理</el-menu-item>
               </el-menu-item-group>
               <el-menu-item-group >
                 <el-menu-item index="1-3">选项3</el-menu-item>
