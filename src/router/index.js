@@ -21,9 +21,23 @@ const routes = [
       {
         path: '/home/report',// /home/report
         component: () => import('../views/reportManagement/ReportView.vue')
-      }
+      },
+
+      {
+        path: 'dataStatistics',
+        component: () => import(/* webpackChunkName: "about" */ '../views/DataStatisticsView.vue')
+      },
+      {
+        path: 'book',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/BookManagement/BookView.vue')
+      },
     ]
   },
+
+
 
   {
     path: '/login',

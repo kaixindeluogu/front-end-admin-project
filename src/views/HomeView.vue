@@ -34,9 +34,9 @@
               <span>图书管理</span>
             </el-menu-item>
 
-            <el-menu-item index="4">
+            <el-menu-item index="dataStatistics">
               <i class="el-icon-setting"></i>
-              <span slot="title">导航四</span>
+              <span slot="title">数据统计</span>
             </el-menu-item>
             <el-menu-item index="report">
               <i class="el-icon-setting"></i>
