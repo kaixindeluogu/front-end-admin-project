@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/home',
     component: HomeView,
-    redirect: '/home/about',//重定向
+    redirect: '/home/book',//重定向
     children:[
       {
         path: 'about',// /home/about
@@ -25,7 +25,7 @@ const routes = [
 
       {
         path: 'dataStatistics',
-        component: () => import(/* webpackChunkName: "about" */ '../views/DataStatisticsView.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/datastatisticsview/DataStatisticsView.vue')
       },
       {
         path: 'book',
@@ -46,6 +46,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/LoginView.vue')
   },
+
 
 ]
 
