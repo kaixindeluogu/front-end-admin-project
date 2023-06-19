@@ -42,6 +42,11 @@
               <i class="el-icon-setting"></i>
               <span slot="title">举报信息管理</span>
             </el-menu-item>
+            <el-menu-item index="libraryApply">
+              <i class="el-icon-setting"></i>
+              <span slot="title">图书馆审核管理</span>
+            </el-menu-item>
+
           </el-menu>
         </el-aside>
         <el-main class="main">

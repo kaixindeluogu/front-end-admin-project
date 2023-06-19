@@ -38,6 +38,10 @@ const routes = [
         path:'account',
         component:() =>import('../views/AccountView/AccountView.vue')
       },
+      {
+        path:'libraryApply',
+        component:() =>import('../views/LibraryApply/LibraryApply.vue')
+      },
     ]
   },
 
