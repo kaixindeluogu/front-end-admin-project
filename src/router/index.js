@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import BookAdmin from "@/views/BookAdmin.vue";
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,17 @@ const routes = [
       {
         path:'libraryApply',
         component:() =>import('../views/LibraryApply/LibraryApply.vue')
+      },
+    ]
+  },
+
+  {
+    path: '/bookadmin',
+    component: () =>import('../views/BookAdmin.vue'),
+    children:[
+      {
+        path:'librarybooks',
+        component:() =>import('../views/BookAdminLibraryBooks/LibraryBooks.vue')
       },
     ]
   },
