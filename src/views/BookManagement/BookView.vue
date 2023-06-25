@@ -11,7 +11,11 @@
     <hr>
     <br>
     <el-table
-        :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+        :data="tableData.filter(data => !search ||
+        data.name.toLowerCase().includes(search.toLowerCase()) ||
+        data.publisher.toLowerCase().includes(search.toLowerCase()) ||
+        data.author.toLowerCase().includes(search.toLowerCase())
+         )"
         border>
       <el-table-column
           fixed
@@ -109,6 +113,7 @@
           <el-button
               size="mini"
               type="danger"
+              plain
               @click="openDeleteConfirm(scope.row)">删除
           </el-button>
         </template>
