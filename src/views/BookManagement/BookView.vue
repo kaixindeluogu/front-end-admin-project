@@ -1,26 +1,12 @@
 <template>
   <div>
-    <form style="display: flex ;
-    flex-wrap: wrap ;
-    justify-content: center;
-    align-items: center">
-      <input style="flex-grow: 1;
-      height: 40px; padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 5px 0 0 5px"
-      type="text"
-      placeholder="输入搜索内容">
-      <button style="height: 60px;
-                padding: 0 20px;
-                font-size: 16px;
-                font-weight: bold;
-                color: black;
-                background-color: white;
-                border: 1px solid black;
-                border-radius: 0 5px 5px 0;
-                cursor: pointer;"  type="submit">搜索</button>
-    </form>
+    <!-- 顶部的面包屑导航 -->
+    <el-breadcrumb separator-class="el-icon-arrow-right" style="font-size: 16px;">
+<!--      <el-breadcrumb-item :to="{ path: '/' }">主页</el-breadcrumb-item>-->
+<!--      <el-breadcrumb-item>内容信息管理</el-breadcrumb-item>-->
+<!--      <el-breadcrumb-item>书籍信息管理</el-breadcrumb-item>-->
+      <el-breadcrumb-item>书籍信息列表</el-breadcrumb-item>
+    </el-breadcrumb>
     <br>
     <hr>
     <br>
@@ -29,8 +15,8 @@
           border>
         <el-table-column
             fixed
-            prop="date"
-            label="编号"
+            prop="id"
+            label="ID"
             width="50"
             header-align="center"
             :align="'center'"
@@ -41,39 +27,34 @@
             width="120">
         </el-table-column>
         <el-table-column
-            prop="province"
+            prop="author"
             label="作者"
             width="120">
         </el-table-column>
         <el-table-column
-            prop="city"
+            prop="publisher"
             label="出版社"
             width="120">
         </el-table-column>
         <el-table-column
-            prop="address"
+            prop="introduction"
             label="详情介绍"
             width="300">
         </el-table-column>
         <el-table-column
-            prop="address"
-            label="图书馆信息"
-            width="300">
-        </el-table-column>
-        <el-table-column
-            prop="zip"
+            prop="storeAmount"
             label="库存数量"
             width="120">
         </el-table-column>
         <el-table-column
-            prop="zip"
+            prop="status"
             label="是否出库"
             width="120">
         </el-table-column>
         <el-table-column
-            prop="zip"
+            prop="gmtCreate"
             label="上架时间"
-            width="120">
+            width="240">
         </el-table-column>
         <el-table-column
             fixed="right"
@@ -81,11 +62,24 @@
             width="100">
           <template slot-scope="scope">
             <el-row>
-              <el-button type="danger" plain>删除</el-button>
+              <el-button type="danger" plain @click="openDeleteConfirm(scope.row)">删除</el-button>
             </el-row>
           </template>
         </el-table-column>
       </el-table>
+
+
+<!--    分页控制-->
+    <div style="margin: 10px 0; text-align: right;">
+      <el-pagination
+          @current-change="changePage"
+          layout="total, prev, pager, next"
+          :hide-on-single-page="true"
+          :page-size="pageSize"
+          :current-page="currentPage"
+          :total="total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -93,42 +87,96 @@
 <script>
 export default {
   methods: {
-    handleClick(row) {
-      console.log(row);
+    handleEdit(){
+      this.value = 1;
+    },
+    changePage(page) {
+      this.$router.replace('?page=' + page);
+      this.loadReportList();
+    },
+    openDeleteConfirm(tableItem) {
+      let message = '把他永久删除 , 你确定？';
+      this.$confirm(message, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.handleDelete(tableItem);
+      }).catch(() => {
+      });
+    },
+    handleDelete(tableItem) {
+      let url = 'http://localhost:9080/admin/book/' + tableItem.id + '/delete';
+      console.log('url = ' + url);
+
+      this.axios.post(url).then((response) => {
+        let jsonResult = response.data;
+        if (jsonResult.state == 20000) {
+          this.$message({
+            message: '删除成功！',
+            type: 'success'
+          });
+          this.loadReportList();
+        } else {
+          let title = '操作失败';
+          this.$alert(jsonResult.message, title, {
+            confirmButtonText: '确定',
+            callback: action => {
+            }
+          });
+        }
+      });
+    },
+    loadReportList() {
+      let page = this.$router.currentRoute.query.page;
+      if (!page) {
+        page = 1;
+      }
+
+      let url = 'http://localhost:9080/admin/book/selectType?page=' + page;
+      console.log('url = ' + url);
+
+      this.axios.get(url).then((response) => {
+        let jsonResult = response.data;
+        if (jsonResult.state == 20000) {
+          this.tableData = jsonResult.data.list;
+          this.currentPage = jsonResult.data.currentPage;
+          this.pageSize = jsonResult.data.pageSize;
+          this.total = jsonResult.data.total;
+        } else {
+          let title = '操作失败';
+          this.$alert(jsonResult.message, title, {
+            confirmButtonText: '确定',
+            callback: action => {
+            }
+          });
+        }
+      });
     }
   },
-
+  mounted() {
+    this.loadReportList();
+  },
   data() {
     return {
-      tableData: [{
-        date: '1',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1518 弄',
-        zip: 200333
-      }, {
-        date: '2',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1517 弄',
-        zip: 200333
-      }, {
-        date: '3',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1519 弄',
-        zip: 200333
-      }, {
-        date: '4',
-        name: '王小虎',
-        province: '上海',
-        city: '普陀区',
-        address: '上海市普陀区金沙江路 1516 弄',
-        zip: 200333
-      }]
+      value: 0,
+      tableData: [],
+      // 分页相关数据
+      currentPage: this.$router.currentRoute.query.page ? parseInt(this.$router.currentRoute.query.page) : 1,
+      pageSize: 20,
+      total: 0,
+      // 详情数据
+      // 编辑对话框相关数据
+      editForm: {
+        id:'',
+        name:'',
+        author:'',
+        publisher:'',
+        status:'',
+        storeAmount:'',
+        introduction:'',
+        gmtCreate:'',
+      },
     }
   }
 }

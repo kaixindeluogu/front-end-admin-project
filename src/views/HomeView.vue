@@ -13,6 +13,8 @@
               background-color="#425c79"
               text-color="#fff"
               active-text-color="#ffd04b">
+
+
             <el-submenu index="1">
               <template slot="title">
                 <i class="el-icon-location"></i>
@@ -23,15 +25,18 @@
                 <el-menu-item index="/home/other">轮播图管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
+
+
+
             <el-menu-item index="/home/account">
               <i class="el-icon-menu"></i>
               <span slot="title">账户管理</span>
             </el-menu-item>
 
 
-            <el-menu-item index="book">
+            <el-menu-item index="/home/book">
               <i class="el-icon-reading"></i>
-              <span>图书管理</span>
+              <span slot="title">图书管理</span>
             </el-menu-item>
 
             <el-menu-item index="dataStatistics">
@@ -69,6 +74,5 @@
 }
 .el-menu.is-active{}
 .main {}
-
 </style>
 
