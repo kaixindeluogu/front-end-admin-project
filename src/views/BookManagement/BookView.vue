@@ -10,66 +10,113 @@
     <br>
     <hr>
     <br>
-      <el-table
-          :data="tableData"
-          border>
-        <el-table-column
-            fixed
-            prop="id"
-            label="ID"
-            width="50"
-            header-align="center"
-            :align="'center'"
-        ></el-table-column>
-        <el-table-column
-            prop="name"
-            label="书名"
-            width="120">
-        </el-table-column>
-        <el-table-column
-            prop="author"
-            label="作者"
-            width="120">
-        </el-table-column>
-        <el-table-column
-            prop="publisher"
-            label="出版社"
-            width="120">
-        </el-table-column>
-        <el-table-column
-            prop="introduction"
-            label="详情介绍"
-            width="300">
-        </el-table-column>
-        <el-table-column
-            prop="storeAmount"
-            label="库存数量"
-            width="120">
-        </el-table-column>
-        <el-table-column
-            prop="status"
-            label="是否出库"
-            width="120">
-        </el-table-column>
-        <el-table-column
-            prop="gmtCreate"
-            label="上架时间"
-            width="240">
-        </el-table-column>
-        <el-table-column
-            fixed="right"
-            label="操作"
-            width="100">
-          <template slot-scope="scope">
-            <el-row>
-              <el-button type="danger" plain @click="openDeleteConfirm(scope.row)">删除</el-button>
-            </el-row>
-          </template>
-        </el-table-column>
-      </el-table>
+    <el-table
+        :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+        border>
+      <el-table-column
+          fixed
+          prop="id"
+          label="ID"
+          width="50"
+          header-align="center"
+          :align="'center'"
+      ></el-table-column>
+      <el-table-column
+          prop="name"
+          label="书名"
+          width="120"
+          header-align="center"
+          :align="'center'"
+      ></el-table-column>
+      <el-table-column
+          prop="author"
+          label="作者"
+          width="120"
+          header-align="center"
+          :align="'center'"
+      ></el-table-column>
+      <el-table-column
+          prop="publisher"
+          label="出版社"
+          width="120"
+          header-align="center"
+          :align="'center'"
+      ></el-table-column>
+      <el-table-column
+          prop="introduction"
+          label="详情介绍"
+          width="300"
+          header-align="center"
+          :align="'center'"
+      ></el-table-column>
+      <el-table-column
+          prop="storeAmount"
+          label="库存数量"
+          width="120"
+          header-align="center"
+          :align="'center'"
+      ></el-table-column>
+      <el-table-column
+          prop="status"
+          label="是否出库"
+          width="120"
+          header-align="center"
+          :align="'center'"
+      ></el-table-column>
+      <el-table-column
+          prop="gmtCreate"
+          label="上架时间"
+          width="240"
+          header-align="center"
+          :align="'center'"
+      ></el-table-column>
 
 
-<!--    分页控制-->
+
+<!--      <el-table-column-->
+<!--          fixed="right"-->
+<!--          label="操作"-->
+<!--          width="100"-->
+<!--          header-align="center"-->
+<!--          :align="'center'"-->
+<!--      ><template slot-scope="scope">-->
+<!--        <template slot="header" slot-scope="scope">-->
+<!--          <el-input-->
+<!--              v-model="search"-->
+<!--              size="mini"-->
+<!--              placeholder="输入关键字搜索"/>-->
+<!--        </template>-->
+<!--        <el-row>-->
+<!--          <el-button type="danger" plain @click="openDeleteConfirm(scope.row)">删除</el-button>-->
+<!--        </el-row>-->
+<!--      </template>-->
+<!--      </el-table-column>-->
+
+
+      <el-table-column
+          fixed="right"
+          align="right"
+          width="150"
+          header-align="center"
+          :align="'center'">
+        <template slot="header" slot-scope="scope">
+          <el-input
+              v-model="search"
+              size="mini"
+              placeholder="输入关键字搜索"/>
+        </template>
+        <template slot-scope="scope">
+          <el-button
+              size="mini"
+              type="danger"
+              @click="openDeleteConfirm(scope.row)">删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+
+
+    <!--    分页控制-->
     <div style="margin: 10px 0; text-align: right;">
       <el-pagination
           @current-change="changePage"
@@ -99,7 +146,6 @@ export default {
       this.$confirm(message, '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-        type: 'warning'
       }).then(() => {
         this.handleDelete(tableItem);
       }).catch(() => {
@@ -161,6 +207,7 @@ export default {
     return {
       value: 0,
       tableData: [],
+      search:'',
       // 分页相关数据
       currentPage: this.$router.currentRoute.query.page ? parseInt(this.$router.currentRoute.query.page) : 1,
       pageSize: 20,
