@@ -1,143 +1,158 @@
-<!--支付界面-->
 <template>
   <div>
     <div class="about">
-      <el-table
-          :data="tableData.filter(data => !search || data.libraryName.toLowerCase().includes(search.toLowerCase()))"
-          style="width: 100%">
-        <el-table-column
-            label="图书馆名"
-            prop="libraryName">
-        </el-table-column>
-        <el-table-column
-            label="书籍量"
-            prop="bookNumber">
-        </el-table-column>
-        <el-table-column
-            label="点击量"
-            prop="click">
-        </el-table-column>
-        <el-table-column
-            label="会员数"
-            prop="VIPNumber">
-        </el-table-column>
-        <el-table-column
-            label="反馈量"
-            prop="feedbackQuantity">
-        </el-table-column>
-        <el-table-column
-            label="创建时间"
-            prop="date">
-        </el-table-column>
-        <el-table-column
-            align="right">
-          <template slot="header" slot-scope="scope">
-            <el-input
-                v-model="search"
-                size="mini"
-                placeholder="输入关键字搜索"/>
-          </template>
-          <template slot-scope="scope">
-            <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+      <div>
+        <el-table
+            :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+            style="width: 100%">
+                    <el-table-column
+                        label="ID" prop="id"></el-table-column>
+          <el-table-column
+              label="图书馆名" prop="name"></el-table-column>
+          <el-input v-model="editForm.name"></el-input>
+<!--          <el-table-column-->
+<!--              label="书籍量" prop="bookNumber"></el-table-column>-->
+          <el-table-column
+              label="点击量" prop="clickNum"></el-table-column>
+          <el-input v-model="editForm.click_num"></el-input>
+          <el-table-column
+              label="人数" prop="userId"></el-table-column>
+          <el-input v-model="editForm.user_id"></el-input>
+          <el-table-column
+              label="评论量" prop="userName"></el-table-column>
+          <el-input v-model="editForm.user_name"></el-input>
+          <el-table-column
+              label="图书馆地址" prop="address"></el-table-column>
+          <el-input v-model="editForm.address"></el-input>
+          <el-table-column align="right">
+            <template slot="header" slot-scope="scope">
+              <el-input v-model="search" size="mini" placeholder="输入关键字搜索"/></template>
+            <template slot-scope="scope">
+              <el-button size="mini" type="danger" @click="openDeleteConfirm(scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+      </div>
     </div>
+
+    <!-- 分页控件 -->
+    <div style="margin: 10px 0; text-align: right;">
+      <el-pagination
+          @current-change="changePage"
+          layout="total, prev, pager, next"
+          :hide-on-single-page="true"
+          :page-size="pageSize"
+          :current-page="currentPage"
+          :total="total">
+      </el-pagination>
+    </div>
+
+
+
+
   </div>
+
+
+
 </template>
+
 
 <script>
 
 export default {
-  name: "dataStatistics",
+  methods: {
+    handleEdit(){
+      this.value = 1;
+    },
+    changePage(page) {
+      this.$router.replace('?page=' + page);
+      this.loadReportList();
+    },
+    openDeleteConfirm(tableItem) {
+      let message = '把他永久删除 , 你确定？';
+      this.$confirm(message, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.handleDelete(tableItem);
+      }).catch(() => {
+      });
+    },
+    handleDelete(tableItem) {
+      let url = 'http://localhost:9080/v1/admin/dataStatistics/' + tableItem.id + '/delete';
+      console.log('url = ' + url);
+
+      this.axios.post(url).then((response) => {
+        let jsonResult = response.data;
+        if (jsonResult.state == 20000) {
+          this.$message({
+            message: '删除成功！',
+            type: 'success'
+          });
+          this.loadReportList();
+        } else {
+          let title = '操作失败';
+          this.$alert(jsonResult.message, title, {
+            confirmButtonText: '确定',
+            callback: action => {
+            }
+          });
+        }
+      });
+    },
+    loadReportList() {
+      let page = this.$router.currentRoute.query.page;
+      if (!page) {
+        page = 1;
+      }
+
+      let url = 'http://localhost:9080/v1/admin/dataStatistics/list/select/Type?page=' + page;
+      console.log('url = ' + url);
+
+      this.axios.get(url).then((response) => {
+        let jsonResult = response.data;
+        if (jsonResult.state == 20000) {
+          this.tableData = jsonResult.data.list;
+          this.currentPage = jsonResult.data.currentPage;
+          this.pageSize = jsonResult.data.pageSize;
+          this.total = jsonResult.data.total;
+        } else {
+          let title = '操作失败';
+          this.$alert(jsonResult.message, title, {
+            confirmButtonText: '确定',
+            callback: action => {
+            }
+          });
+        }
+      });
+    }
+  },
+  mounted() {
+    this.loadReportList();
+  },
   data() {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        libraryName: '知途图书馆',
-        bookNumber: '1234',
-        click:'54654654',
-        VIPNumber:'784535',
-        feedbackQuantity: '87978',
-      },  {
-        date: '2016-05-04',
-        libraryName: '知行书社',
-        bookNumber: '12333',
-        click: '22222',
-        VIPNumber:'879789',
-        feedbackQuantity: '345654',
-      },
-        {
-          date: '2016-05-04',
-          libraryName: '博雅馆',
-          bookNumber: '123123',
-          click: '33333',
-          VIPNumber:'786786',
-          feedbackQuantity: '5456546',
-        }, {
-          date: '2016-05-01',
-          libraryName: '读史阁',
-          bookNumber: '64546',
-          click: '44444',
-          VIPNumber:'87987',
-          feedbackQuantity: '64578',
-        },  {
-          date: '2016-05-01',
-          libraryName: '智慧树图书馆',
-          bookNumber: '64546',
-          click: '44444',
-          VIPNumber:'87978',
-          feedbackQuantity: '45687',
-        }, {
-          date: '2016-05-01',
-          libraryName: '阅驿馆',
-          bookNumber: '64546',
-          click: '44444',
-          VIPNumber:'65445',
-          feedbackQuantity: '678645',
-        }, {
-          date: '2016-05-01',
-          libraryName: '静雅斋',
-          bookNumber: '64546',
-          click: '12453',
-          VIPNumber:'786987',
-          feedbackQuantity: '45354',
-        }, {
-          date: '2016-05-01',
-          libraryName: '清音阁',
-          bookNumber: '64546',
-          click: '88865',
-          VIPNumber:'87687',
-          feedbackQuantity: '78645',
-        }, {
-          date: '2016-05-01',
-          libraryName: '阳台书院',
-          bookNumber: '64546',
-          click: '45654',
-          VIPNumber:'876987',
-          feedbackQuantity: '64564',
-        },{
-          date: '2016-05-03',
-          libraryName: '清澈书屋',
-          bookNumber: '6666',
-          click: '555554',
-          VIPNumber:'1411',
-          feedbackQuantity: '45654',
-        }],
-      search: ''
-    }
-  },
-  methods: {
-    handleDelete(index, row) {
-      console.log(index, row);
-    }
-  },
-  created() {
+      value: 0,
+      tableData: [],
+      search:'',
+      // 分页相关数据
+      currentPage: this.$router.currentRoute.query.page ? parseInt(this.$router.currentRoute.query.page) : 1,
+      pageSize: 20,
+      total: 0,
+      // 详情数据
+      // 编辑对话框相关数据
+      editForm: {
+        id:'',
+        name:'',
+        clickNum:'',
+        address:'',
+        userId:'',
+        userName:'',
 
+      },
+    }
   }
 }
 </script>

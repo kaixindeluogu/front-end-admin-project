@@ -39,7 +39,7 @@
               <span slot="title">图书管理</span>
             </el-menu-item>
 
-            <el-menu-item index="dataStatistics">
+            <el-menu-item index="/home/dataStatistics">
               <i class="el-icon-setting"></i>
               <span slot="title">数据统计</span>
             </el-menu-item>
