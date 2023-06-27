@@ -43,6 +43,14 @@ const routes = [
         path:'libraryApply',
         component:() =>import('../views/LibraryApply/LibraryApply.vue')
       },
+      {
+        path:'libraryRule',
+        component:() =>import('../views/LibraryRule/LibraryRuleView')
+      },
+      {
+        path:'ruleList',
+        component:() =>import('../views/LibraryRule/RuleListView')
+      },
     ]
   },
 

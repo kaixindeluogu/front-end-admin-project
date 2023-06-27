@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <!-- 表单 -->
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
       <el-form-item label="图书馆名称" prop="name">
@@ -49,7 +47,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let url = 'http://localhost:9080//v1/admin/library/add-new';
+          let url = 'http://localhost:9080/v1/admin/library/add-new';
           console.log('url = ' + url);
           let formData = this.qs.stringify(this.ruleForm);
           console.log('formData = ' + formData);
