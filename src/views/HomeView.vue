@@ -13,6 +13,8 @@
               background-color="#425c79"
               text-color="#fff"
               active-text-color="#ffd04b">
+
+
             <el-submenu index="1">
               <template slot="title">
                 <i class="el-icon-location"></i>
@@ -23,18 +25,21 @@
                 <el-menu-item index="/home/other">轮播图管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
+
+
+
             <el-menu-item index="/home/account">
               <i class="el-icon-menu"></i>
               <span slot="title">账户管理</span>
             </el-menu-item>
 
 
-            <el-menu-item index="book">
+            <el-menu-item index="/home/book">
               <i class="el-icon-reading"></i>
-              <span>图书管理</span>
+              <span slot="title">图书管理</span>
             </el-menu-item>
 
-            <el-menu-item index="dataStatistics">
+            <el-menu-item index="/home/dataStatistics">
               <i class="el-icon-setting"></i>
               <span slot="title">数据统计</span>
             </el-menu-item>
@@ -42,6 +47,11 @@
               <i class="el-icon-setting"></i>
               <span slot="title">举报信息管理</span>
             </el-menu-item>
+            <el-menu-item index="libraryApply">
+              <i class="el-icon-setting"></i>
+              <span slot="title">图书馆审核管理</span>
+            </el-menu-item>
+
           </el-menu>
         </el-aside>
         <el-main class="main">
@@ -64,6 +74,5 @@
 }
 .el-menu.is-active{}
 .main {}
-
 </style>
 
