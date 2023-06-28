@@ -43,14 +43,7 @@ const routes = [
         path:'libraryApply',
         component:() =>import('../views/LibraryApply/LibraryApply.vue')
       },
-      {
-        path:'libraryRule',
-        component:() =>import('../views/LibraryRule/LibraryRuleView')
-      },
-      {
-        path:'ruleList',
-        component:() =>import('../views/LibraryRule/RuleListView')
-      },
+
     ]
   },
 
@@ -62,7 +55,19 @@ const routes = [
         path:'librarybooks',
         component:() =>import('../views/BookAdminLibraryBooks/LibraryBooks.vue')
       },
-    ]
+      {
+        path:'import',
+        component:() =>import('../views/BookadminBookImport/ImportView.vue')
+      },
+      {
+        path:'libraryRule',
+        component:() =>import('../views/LibraryRule/LibraryRuleView')
+      },
+      {
+        path:'ruleList',
+        component:() =>import('../views/LibraryRule/RuleListView')
+      },
+       ]
   },
 
 

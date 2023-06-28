@@ -52,17 +52,6 @@
               <span slot="title">图书馆审核管理</span>
             </el-menu-item>
 
-            <el-submenu index="2">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>借阅规则管理</span>
-              </template>
-              <el-menu-item-group>
-                <el-menu-item index="libraryRule">规则导入</el-menu-item>
-                <el-menu-item index="ruleList">规则查看</el-menu-item>
-              </el-menu-item-group>
-            </el-submenu>
-
           </el-menu>
         </el-aside>
         <el-main class="main">
