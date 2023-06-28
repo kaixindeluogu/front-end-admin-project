@@ -5,20 +5,22 @@
         <el-table
             :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
             style="width: 100%">
-                    <el-table-column
-                        label="ID" prop="id"></el-table-column>
+          <el-table-column
+              label="ID" prop="id"></el-table-column>
           <el-table-column
               label="图书馆名" prop="name"></el-table-column>
+
           <el-input v-model="editForm.name"></el-input>
+
+          <el-table-column
+              label="图书分类" prop="categoryId"></el-table-column>
+          <el-input v-model="editForm.category_id"></el-input>
+          <el-table-column
+              label="书籍库存量" prop="storeAmount"></el-table-column>
+          <el-input v-model="editForm.store_amount"></el-input>
           <el-table-column
               label="借阅量" prop="borrowingVolume"></el-table-column>
           <el-input v-model="editForm.borrowing_volume"></el-input>
-          <el-table-column
-              label="评论量" prop="userName"></el-table-column>
-          <el-input v-model="editForm.user_name"></el-input>
-          <el-table-column
-              label="图书馆地址" prop="address"></el-table-column>
-          <el-input v-model="editForm.address"></el-input>
           <el-table-column align="right">
             <template slot="header" slot-scope="scope">
               <el-input v-model="search" size="mini" placeholder="输入关键字搜索"/></template>
@@ -76,7 +78,7 @@ export default {
       });
     },
     handleDelete(tableItem) {
-      let url = 'http://localhost:9080/v1/admin/dataStatistics/' + tableItem.id + '/delete';
+      let url = 'http://localhost:9080//v1/bookadmin/libraryDataStatistics/' + tableItem.id + '/delete';
       console.log('url = ' + url);
 
       this.axios.post(url).then((response) => {
@@ -103,7 +105,7 @@ export default {
         page = 1;
       }
 
-      let url = 'http://localhost:9080/v1/admin/dataStatistics/list/select/Type?page=' + page;
+      let url = 'http://localhost:9080//v1/bookadmin/libraryDataStatistics/list/select/Type?page=' + page;
       console.log('url = ' + url);
 
       this.axios.get(url).then((response) => {
@@ -140,10 +142,10 @@ export default {
       // 编辑对话框相关数据
       editForm: {
         id:'',
-        name:'',
-        borrowingVolume: '',
-        address:'',
-        userName:'',
+        name: '',
+        categoryId:'',
+        storeAmount:'',
+        borrowingVolume:'',
 
       },
     }
@@ -163,11 +165,7 @@ export default {
 
 @media screen and (max-width: 1969px) {
   .idxs {
-    /*width: 1270px;*/
-    /*min-width: 1000px;*/
-    /*margin-top: 60px;*/
-    /*margin-left: 270px;*/
-    /*padding: 40px;*/
+
     width: calc(100% - 290px);
     max-width: 1570px;
     min-width: 1200px;

@@ -27,6 +27,12 @@
             </el-submenu>
 
 
+            <el-menu-item index="/bookadmin/librarydataStatistics">
+              <i class="el-icon-menu"></i>
+              <span slot="title">图书馆数据统计</span>
+            </el-menu-item>
+
+
 
             <el-submenu index="2">
               <template slot="title">
