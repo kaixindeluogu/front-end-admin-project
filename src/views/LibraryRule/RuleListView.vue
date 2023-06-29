@@ -21,6 +21,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
+        <el-button @click="editFormVisible = false">修改</el-button>
         <el-button @click="editFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>

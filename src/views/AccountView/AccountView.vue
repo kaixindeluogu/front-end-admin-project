@@ -99,7 +99,7 @@ export default {
         let jsonResult = response.data;
         if (jsonResult.state == 20000) {
           this.$message({
-            message: '修改标签成功！',
+            message: '修改权限成功！',
             type: 'success'
           });
           this.dialogFormVisible = false;
@@ -202,7 +202,7 @@ export default {
         let jsonResult = response.data;
         if (jsonResult.state == 20000){
           this.$message({
-            message:enableText[item.admin] + '标签成功!',
+            message:enableText[item.admin] + '权限成功!',
             type: 'success'
           });
         }else {
