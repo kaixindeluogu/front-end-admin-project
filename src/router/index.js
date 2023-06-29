@@ -67,6 +67,10 @@ const routes = [
         path:'ruleList',
         component:() =>import('../views/LibraryRule/RuleListView')
       },
+      {
+        path:'libraryDataStatistics',
+        component:() =>import('../views/LibraryDataStatistics/LibraryDataStatistics.vue')
+      },
        ]
   },
 

@@ -6,25 +6,28 @@
             :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
             style="width: 100%">
                     <el-table-column
-                        label="ID" prop="id"></el-table-column>
+                        label="id" prop="id"></el-table-column>
           <el-table-column
               label="图书馆名" prop="name"></el-table-column>
           <el-input v-model="editForm.name"></el-input>
           <el-table-column
-              label="借阅量" prop="borrowingVolume"></el-table-column>
-          <el-input v-model="editForm.borrowing_volume"></el-input>
+              label="总借阅量" prop="borrowingVolume"></el-table-column>
+          <el-input v-model="editForm.borrowingVolume"></el-input>
           <el-table-column
-              label="评论量" prop="userName"></el-table-column>
-          <el-input v-model="editForm.user_name"></el-input>
+              label="总用户数量" prop="userId"></el-table-column>
+          <el-input v-model="editForm.userId"></el-input>
           <el-table-column
               label="图书馆地址" prop="address"></el-table-column>
           <el-input v-model="editForm.address"></el-input>
+          <el-table-column
+              label="总书籍数量" prop="storeAmount"></el-table-column>
+          <el-input v-model="editForm.storeAmount"></el-input>
           <el-table-column align="right">
             <template slot="header" slot-scope="scope">
               <el-input v-model="search" size="mini" placeholder="输入关键字搜索"/></template>
-            <template slot-scope="scope">
-              <el-button size="mini" type="danger" @click="openDeleteConfirm(scope.row)">删除</el-button>
-            </template>
+<!--            <template slot-scope="scope">-->
+<!--              <el-button size="mini" type="danger" @click="openDeleteConfirm(scope.row)">删除</el-button>-->
+<!--            </template>-->
           </el-table-column>
         </el-table>
 
@@ -139,11 +142,12 @@ export default {
       // 详情数据
       // 编辑对话框相关数据
       editForm: {
-        id:'',
+        Id:'',
         name:'',
         borrowingVolume: '',
         address:'',
-        userName:'',
+        userId:'',
+        storeAmount :'',
 
       },
     }

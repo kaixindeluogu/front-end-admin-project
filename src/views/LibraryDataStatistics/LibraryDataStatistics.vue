@@ -6,7 +6,7 @@
             :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
             style="width: 100%">
           <el-table-column
-              label="ID" prop="id"></el-table-column>
+              label="id" prop="id"></el-table-column>
           <el-table-column
               label="图书馆名" prop="name"></el-table-column>
 
@@ -14,19 +14,21 @@
 
           <el-table-column
               label="图书分类" prop="categoryId"></el-table-column>
-          <el-input v-model="editForm.category_id"></el-input>
+          <el-input v-model="editForm.categoryId"></el-input>
           <el-table-column
               label="书籍库存量" prop="storeAmount"></el-table-column>
-          <el-input v-model="editForm.store_amount"></el-input>
+          <el-input v-model="editForm.storeAmount"></el-input>
           <el-table-column
               label="借阅量" prop="borrowingVolume"></el-table-column>
-          <el-input v-model="editForm.borrowing_volume"></el-input>
+          <el-input v-model="editForm.borrowingVolume"></el-input>  <el-table-column
+              label="图书馆点击量" prop="clickNum"></el-table-column>
+          <el-input v-model="editForm.clickNum"></el-input>
           <el-table-column align="right">
             <template slot="header" slot-scope="scope">
               <el-input v-model="search" size="mini" placeholder="输入关键字搜索"/></template>
-            <template slot-scope="scope">
-              <el-button size="mini" type="danger" @click="openDeleteConfirm(scope.row)">删除</el-button>
-            </template>
+<!--            <template slot-scope="scope">-->
+<!--              <el-button size="mini" type="danger" @click="openDeleteConfirm(scope.row)">删除</el-button>-->
+<!--            </template>-->
           </el-table-column>
         </el-table>
 
@@ -146,6 +148,7 @@ export default {
         categoryId:'',
         storeAmount:'',
         borrowingVolume:'',
+        clickNum:'',
 
       },
     }
