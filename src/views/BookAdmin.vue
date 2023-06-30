@@ -46,7 +46,7 @@
             </el-submenu>
             <el-menu-item index="/bookadmin/OrderApproval">
               <i class="el-icon-menu"></i>
-              <span slot="title">图书馆数据统计</span>
+              <span slot="title">预约信息管理</span>
             </el-menu-item>
 
           </el-menu>
