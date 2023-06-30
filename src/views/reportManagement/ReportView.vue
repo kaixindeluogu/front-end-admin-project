@@ -13,7 +13,7 @@
         <template slot-scope="scope">
           <el-switch
               style="display: block"
-              v-model="scope.row.enable"
+              :v-model="selectedOption"
               :active-value="1"
               :inactive-value="0"
               active-color="#13ce66"
@@ -28,13 +28,13 @@
         <template slot-scope="scope">
           <el-button slot="reference" @click="openEditDialog(scope.row)">查看</el-button>
           <el-button slot="reference" @click="openDeleteConfirm(scope.row)">删除</el-button>
+          <el-button type="primary" @click="pass">通过</el-button>
         </template>
       </el-table-column>
     </el-table>
 
 
-    <!-- 修改数据的表单 -->
-    <el-dialog title="举报详情数据" :visible.sync="editFormVisible">
+    <el-dialog title="举报详情数据" :visible.sync="editFormVisible" :disabled="true">
       <el-form :model="editForm" label-width="120px">
         <el-form-item label="用户id" prop="userId">
           <el-input v-model="editForm.userId"></el-input>
@@ -51,7 +51,6 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
-        <el-button type="primary" @change="toggleEnable(scope.row)">通过</el-button>
       </div>
     </el-dialog>
 
@@ -93,15 +92,39 @@ export default {
         }
       });
     },
-    handleEdit(){
-      this.value = 1;
-    },
     changePage(page) {
       this.$router.replace('?page=' + page);
       this.loadReportList();
     },
-    toggleEnable(item) {
-      alert('即将切换【' + item.id + " - " + item.name + '】的启用状态，还没做！');
+    pass() {
+      let url = 'http://localhost:9080/v1/admin/report/' + this.editForm.id + '/pass';
+      this.axios.post(url).then((response) => {
+        let jsonResult = response.data;
+        if (jsonResult.state == 20000) {
+          this.$message({
+            message: '审批通过！',
+            type: 'success'
+          });
+          this.selectedOption = 1;
+          this.loadReportList();
+        } else if (jsonResult.state == 40400) {
+          let title = '操作失败';
+          this.$alert(jsonResult.message, title, {
+            confirmButtonText: '确定',
+            callback: action => {
+              this.editFormVisible = false;
+              this.loadReportList();
+            }
+          });
+        } else {
+          let title = '操作失败';
+          this.$alert(jsonResult.message, title, {
+            confirmButtonText: '确定',
+            callback: action => {
+            }
+          });
+        }
+      });
     },
     // 弹出删除确认框
     openDeleteConfirm(tableItem) {
@@ -171,7 +194,7 @@ export default {
 
   data() {
     return {
-      value: 0,
+      selectedOption: 0,
       tableData: [],
       // 分页相关数据
       currentPage: this.$router.currentRoute.query.page ? parseInt(this.$router.currentRoute.query.page) : 1,
@@ -186,6 +209,7 @@ export default {
         bookId: '',
         libraryId: '',
         reportContent: '',
+        status:'',
         gmtCreate: '',
       },
     }
