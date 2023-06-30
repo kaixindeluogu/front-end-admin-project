@@ -43,7 +43,10 @@ const routes = [
         path:'libraryApply',
         component:() =>import('../views/LibraryApply/LibraryApply.vue')
       },
+      {path:'OrderApproval',
+      component: () => import('../views/OrderApproval/OrderApprovalView.vue')}
     ]
+
   },
 
   {
