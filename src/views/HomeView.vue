@@ -51,9 +51,9 @@
               <i class="el-icon-setting"></i>
               <span slot="title">图书馆审核管理</span>
             </el-menu-item>
-            <el-menu-item index="OrderApproval">
+            <el-menu-item index="/bookadmin">
               <i class="el-icon-setting"></i>
-              <span slot="title">用户订单信息批准</span>
+              <span slot="title">图书馆后台管理</span>
             </el-menu-item>
 
           </el-menu>
