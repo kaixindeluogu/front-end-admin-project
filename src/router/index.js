@@ -73,7 +73,7 @@ const routes = [
             },
             {
                 path: 'OrderApproval',
-                component: () => import('../views/OrderApproval/OrderApprovalView.vue')
+                component: () => import('../views/BookAdminOrderApproval/OrderApprovalView.vue')
             }
 
         ]
