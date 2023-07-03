@@ -44,6 +44,10 @@
                 <el-menu-item index="ruleList">规则查看</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
+            <el-menu-item index="/bookadmin/OrderApproval">
+              <i class="el-icon-menu"></i>
+              <span slot="title">预约信息管理</span>
+            </el-menu-item>
 
           </el-menu>
         </el-aside>

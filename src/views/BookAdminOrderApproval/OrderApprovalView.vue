@@ -1,15 +1,16 @@
 <template>
   <div>
-    <h2>用户举报信息</h2>
+    <h2>预约订单信息管理</h2>
     <el-divider/>
 
-    <el-table :data="tableData" border style="width: 100%">
-      <el-table-column fixed prop="gmtCreate" label="日期" width="150"></el-table-column>
-      <el-table-column prop="id" label="举报信息id" width="120"></el-table-column>
-      <el-table-column prop="userId" label="用户id" width="120"></el-table-column>
-      <el-table-column prop="libraryId" label="图书馆id" width="120"></el-table-column>
-      <el-table-column prop="bookId" label="书籍id" width="120"></el-table-column>
-      <el-table-column prop="status" label="状态" width="170">
+    <el-table :data="tableData" border style="width: 100%" >
+      <el-table-column prop="id" label="预约信息id" width="80"></el-table-column>
+      <el-table-column prop="userId" label="预约用户id" width="80"></el-table-column>
+      <el-table-column prop="bookId" label="预约图书id" width="80" align="center"></el-table-column>
+      <el-table-column prop="userName" label="预约用户名称" width="80" align="center"></el-table-column>
+      <el-table-column prop="bookName" label="预约图书名称" align="center"></el-table-column>
+      <el-table-column prop="reservationTime" label="预约时间" align="center" width="150"></el-table-column>
+      <el-table-column prop="status" label="预约状态"  align="center">
         <template slot-scope="scope">
           <el-switch
               style="display: block"
@@ -24,17 +25,17 @@
           </el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200" align="center">
+      <el-table-column label="操作" width="300" align="center">
         <template slot-scope="scope">
-          <el-button slot="reference" @click="openEditDialog(scope.row)">查看</el-button>
+          <el-button slot="reference"  @click="openEditDialog(scope.row)">查看</el-button>
           <el-button slot="reference" @click="openDeleteConfirm(scope.row)">删除</el-button>
-          <el-button type="primary" @click="pass">通过</el-button>
+<!--          <el-button type="primary" @click="update">通过</el-button>-->
         </template>
       </el-table-column>
     </el-table>
 
 
-    <el-dialog title="举报详情数据" :visible.sync="editFormVisible" :disabled="true">
+    <el-dialog title="预约详情数据" :visible.sync="editFormVisible" :disabled="true">
       <el-form :model="editForm" label-width="120px">
         <el-form-item label="用户id" prop="userId">
           <el-input v-model="editForm.userId"></el-input>
@@ -42,12 +43,10 @@
         <el-form-item label="书籍id" prop="bookId">
           <el-input v-model="editForm.bookId"></el-input>
         </el-form-item>
-        <el-form-item label="图书馆id" prop="libraryId">
-          <el-input v-model="editForm.libraryId"></el-input>
+        <el-form-item label="书籍名称" prop="bookName">
+          <el-input v-model="editForm.bookName"></el-input>
         </el-form-item>
-        <el-form-item label="举报内容" prop="content">
-          <el-input v-model="editForm.reportContent"></el-input>
-        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="editFormVisible = false">取 消</el-button>
@@ -73,7 +72,7 @@ export default {
   methods: {
     // 弹出详情对话框
     openEditDialog(tableItem) {
-      let url = 'http://localhost:9080/v1/admin/report/' + tableItem.id;
+      let url = 'http://localhost:9080/admin/order/' + tableItem.id;
       console.log('url = ' + url);
 
       this.axios.get(url).then((response) => {
@@ -86,7 +85,7 @@ export default {
           this.$alert(jsonResult.message, title, {
             confirmButtonText: '确定',
             callback: action => {
-              this.loadReportList();
+              this.loadOrderApprovalList();
             }
           });
         }
@@ -94,10 +93,10 @@ export default {
     },
     changePage(page) {
       this.$router.replace('?page=' + page);
-      this.loadReportList();
+      this.loadOrderApprovalList();
     },
-    pass() {
-      let url = 'http://localhost:9080/v1/admin/report/' + this.editForm.id + '/pass';
+    update() {
+      let url = 'http://localhost:9080/admin/order/' + this.editForm.id + '/update';
       this.axios.post(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.state == 20000) {
@@ -106,14 +105,14 @@ export default {
             type: 'success'
           });
           this.selectedOption = 1;
-          this.loadReportList();
+          this.loadOrderApprovalList();
         } else if (jsonResult.state == 40400) {
           let title = '操作失败';
           this.$alert(jsonResult.message, title, {
             confirmButtonText: '确定',
             callback: action => {
               this.editFormVisible = false;
-              this.loadReportList();
+              this.loadOrderApprovalList();
             }
           });
         } else {
@@ -140,7 +139,7 @@ export default {
     },
     //删除
     handleDelete(tableItem) {
-      let url = 'http://localhost:9080/v1/admin/report/' + tableItem.id + '/delete';
+      let url = 'http://localhost:9080/admin/order' + tableItem.id + '/delete';
       console.log('url = ' + url);
 
       this.axios.post(url).then((response) => {
@@ -150,7 +149,7 @@ export default {
             message: '删除成功！',
             type: 'success'
           });
-          this.loadReportList();
+          this.loadOrderApprovalList();
         } else {
           let title = '操作失败';
           this.$alert(jsonResult.message, title, {
@@ -161,13 +160,13 @@ export default {
         }
       });
     },
-    loadReportList() {
+    loadOrderApprovalList() {
       let page = this.$router.currentRoute.query.page;
       if (!page) {
         page = 1;
       }
 
-      let url = 'http://localhost:9080/v1/admin/report/list?page=' + page;
+      let url = 'http://localhost:9080/admin/order/list';
       console.log('url = ' + url);
 
       this.axios.get(url).then((response) => {
@@ -189,7 +188,7 @@ export default {
     }
   },
   mounted() {
-    this.loadReportList();
+    this.loadOrderApprovalList();
   },
 
   data() {
@@ -206,9 +205,10 @@ export default {
       editForm: {
         id: '',
         userId: '',
+        bookName:'',
+        userName:'',
+        reservationTime:'',
         bookId: '',
-        libraryId: '',
-        reportContent: '',
         status:'',
         gmtCreate: '',
       },
