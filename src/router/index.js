@@ -69,7 +69,7 @@ const routes = [
             },
             {
                 path: 'libraryDataStatistics',
-                component: () => import('../views/LibraryDataStatistics/LibraryDataStatistics.vue')
+                component: () => import('../views/BookAdminLibraryDataStatistics/LibraryDataStatistics.vue')
             },
             {
                 path: 'OrderApproval',

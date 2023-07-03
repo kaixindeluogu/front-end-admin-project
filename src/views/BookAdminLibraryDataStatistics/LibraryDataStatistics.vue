@@ -7,9 +7,9 @@
             style="width: 100%">
           <el-table-column
               label="id" prop="id"></el-table-column>
+
           <el-table-column
               label="图书馆名" prop="name"></el-table-column>
-
           <el-input v-model="editForm.name"></el-input>
 
           <el-table-column
@@ -143,7 +143,7 @@ export default {
       // 详情数据
       // 编辑对话框相关数据
       editForm: {
-        id:'',
+        Id:'',
         name: '',
         categoryId:'',
         storeAmount:'',
