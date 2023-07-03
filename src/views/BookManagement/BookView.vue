@@ -2,9 +2,9 @@
   <div>
     <!-- 顶部的面包屑导航 -->
     <el-breadcrumb separator-class="el-icon-arrow-right" style="font-size: 16px;">
-<!--      <el-breadcrumb-item :to="{ path: '/' }">主页</el-breadcrumb-item>-->
-<!--      <el-breadcrumb-item>内容信息管理</el-breadcrumb-item>-->
-<!--      <el-breadcrumb-item>书籍信息管理</el-breadcrumb-item>-->
+      <!--      <el-breadcrumb-item :to="{ path: '/' }">主页</el-breadcrumb-item>-->
+      <!--      <el-breadcrumb-item>内容信息管理</el-breadcrumb-item>-->
+      <!--      <el-breadcrumb-item>书籍信息管理</el-breadcrumb-item>-->
       <el-breadcrumb-item>书籍信息列表</el-breadcrumb-item>
     </el-breadcrumb>
     <br>
@@ -26,6 +26,7 @@
           :align="'center'"
       ></el-table-column>
       <el-table-column
+          fixed
           prop="name"
           label="书名"
           width="120"
@@ -77,24 +78,24 @@
 
 
 
-<!--      <el-table-column-->
-<!--          fixed="right"-->
-<!--          label="操作"-->
-<!--          width="100"-->
-<!--          header-align="center"-->
-<!--          :align="'center'"-->
-<!--      ><template slot-scope="scope">-->
-<!--        <template slot="header" slot-scope="scope">-->
-<!--          <el-input-->
-<!--              v-model="search"-->
-<!--              size="mini"-->
-<!--              placeholder="输入关键字搜索"/>-->
-<!--        </template>-->
-<!--        <el-row>-->
-<!--          <el-button type="danger" plain @click="openDeleteConfirm(scope.row)">删除</el-button>-->
-<!--        </el-row>-->
-<!--      </template>-->
-<!--      </el-table-column>-->
+      <!--      <el-table-column-->
+      <!--          fixed="right"-->
+      <!--          label="操作"-->
+      <!--          width="100"-->
+      <!--          header-align="center"-->
+      <!--          :align="'center'"-->
+      <!--      ><template slot-scope="scope">-->
+      <!--        <template slot="header" slot-scope="scope">-->
+      <!--          <el-input-->
+      <!--              v-model="search"-->
+      <!--              size="mini"-->
+      <!--              placeholder="输入关键字搜索"/>-->
+      <!--        </template>-->
+      <!--        <el-row>-->
+      <!--          <el-button type="danger" plain @click="openDeleteConfirm(scope.row)">删除</el-button>-->
+      <!--        </el-row>-->
+      <!--      </template>-->
+      <!--      </el-table-column>-->
 
 
       <el-table-column
