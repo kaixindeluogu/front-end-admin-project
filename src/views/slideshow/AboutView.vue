@@ -9,10 +9,11 @@
 
       <el-form-item label="上传图片">
         <el-upload v-model="c.imgUrl"
-                   action="http://localhost:9080/v1/admin/file"
+                   action="http://localhost:9080/v1/admin/file/"
                    name="file"
                    :limit=1
                    list-type="picture-card"
+                   :headers="uploadHeaders"
                    :on-success="handleSuccess"
                    :on-preview="handlePictureCardPreview"
                    :on-remove="handleRemove">
@@ -41,6 +42,9 @@
 export default {
   data() {
     return {
+      uploadHeaders: {
+        Authorization: localStorage.getItem('jwt'),
+      },
       // 上传图片数据
       isEdit: false,
       c: {
@@ -51,6 +55,9 @@ export default {
     };
   },
   methods: {
+      console.log(file.headers);
+      return true;
+    },
 
     handleSuccess(response, file, fileList) {
       console.log(file);
@@ -78,7 +85,9 @@ export default {
 
     // 提交表单
     post() {
-      this.axios.post("http://localhost:9080/v1/admin/banner/upload", this.c).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .post("http://localhost:9080/v1/admin/banner/upload", this.c).then((response) => {
         if (response.data.state == 20000) {
           this.$message.success("添加成功!");
           location.reload();

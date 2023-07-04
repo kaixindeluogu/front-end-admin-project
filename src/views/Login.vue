@@ -52,9 +52,9 @@ export default {
           if (localStorage.getItem("authority") == 'user') {
             this.$router.push('/')
           }else if (localStorage.getItem("authority") == 'admin'){
-            window.location.href='http://localhost:9090/home'
+            window.location.href='http://localhost:9091/home'
           }else if (localStorage.getItem("authority") == 'bookadmin'){
-            window.location.href='http://localhost:9090/bookadmin'
+            window.location.href='http://localhost:9091/bookadmin'
           }
 
 
