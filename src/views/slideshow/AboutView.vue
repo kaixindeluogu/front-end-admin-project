@@ -12,10 +12,10 @@
                    action="http://localhost:9080/v1/admin/file/"
                    name="file"
                    :limit=1
-                   list-type="picture-card"
-                   :headers="uploadHeaders"
-                   :on-success="handleSuccess"
-                   :on-preview="handlePictureCardPreview"
+                   list-type="picture-card" ,
+                   :headers="uploadHeaders" ,
+                   :on-success="handleSuccess" ,
+                   :on-preview="handlePictureCardPreview" ,
                    :on-remove="handleRemove">
           <i class="el-icon-plus"></i>
         </el-upload>
@@ -55,9 +55,7 @@ export default {
     };
   },
   methods: {
-      console.log(file.headers);
-      return true;
-    },
+
 
     handleSuccess(response, file, fileList) {
       console.log(file);

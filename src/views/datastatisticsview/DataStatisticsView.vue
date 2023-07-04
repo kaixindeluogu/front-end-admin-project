@@ -79,7 +79,7 @@ export default {
       });
     },
     handleDelete(tableItem) {
-      let url = 'http://localhost:9080/v1/admin/dataStatistics/' + tableItem.id + '/delete';
+      let url = 'http://localhost:9088/v1/admin/dataStatistics/' + tableItem.id + '/delete';
       console.log('url = ' + url);
 
       this.axios
@@ -108,7 +108,7 @@ export default {
         page = 1;
       }
 
-      let url = 'http://localhost:9080/v1/admin/dataStatistics/list/select/Type?page=' + page;
+      let url = 'http://localhost:9088/v1/admin/dataStatistics/list/select/Type?page=' + page;
       console.log('url = ' + url);
 
       this.axios

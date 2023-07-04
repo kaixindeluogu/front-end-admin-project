@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import BookAdmin from "@/views/BookAdmin.vue";
 
 Vue.use(VueRouter)
 
@@ -9,7 +8,7 @@ const routes = [
     {
         path: '/home',
         component: HomeView,
-        redirect: '/home/about',//重定向
+        redirect: '/home/book',//重定向
         children: [
             {
                 path: 'about',// /home/about
@@ -20,7 +19,7 @@ const routes = [
                 component: () => import('../views/slideshow/OtherView.vue')
             },
             {
-                path: '/home/report',// /home/report
+                path: 'report',// /home/report
                 component: () => import('../views/reportManagement/ReportView.vue')
             },
 
