@@ -10,78 +10,78 @@
     <el-divider></el-divider>
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-      <el-form-item label="书名">
-        <el-input style="width: 200px"
-                  placeholder="请输入书名" v-model="ruleForm.name"></el-input>
-      </el-form-item>
-      <el-form-item label="作者">
-        <el-input style="width: 200px"
-                  placeholder="请输入作者名字" v-model="ruleForm.author"></el-input>
-      </el-form-item>
-      <el-form-item label="图书馆ID">
-        <el-input style="width: 200px"
-                  placeholder="请输入图书馆ID" v-model="ruleForm.libraryId"></el-input>
-      </el-form-item>
-      <el-form-item label="出版社">
-        <el-input style="width: 200px"
-                  placeholder="请输入出版社" v-model="ruleForm.publisher"></el-input>
-      </el-form-item>
-<!--      <el-form-item label="类型">-->
-<!--        <el-input style="width: 200px"-->
-<!--                  placeholder="请输入书名" v-model="ruleForm.name"></el-input>-->
-<!--      </el-form-item>-->
-
-      <el-form-item label="用户ID">
-        <el-input style="width: 200px"
-                  placeholder="请输入用户ID" v-model="ruleForm.libraryId"></el-input>
-      </el-form-item>
-      <el-form-item label="出版日期">
-        <el-date-picker
-            style="width: 200px"
-            v-model="ruleForm.publishTime"
-            type="date"
-            placeholder="选择日期">
-        </el-date-picker>
-      </el-form-item>
-      <el-form-item label="入库数量">
-        <el-input style="width: 200px"
-                  placeholder="请输入入库数量" v-model="ruleForm.storeAmount"></el-input>
-      </el-form-item>
-
-      <el-form-item label="详情介绍">
-<!--        <el-input style="width: 200px"-->
-<!--                  placeholder="请输入详情介绍" v-model="ruleForm.introduction"></el-input>-->
-        <el-input
-            style="width: 200px"
-            type="textarea"
-            :rows="3"
-            placeholder="请输入详情介绍"
-            v-model="ruleForm.introduction">
-        </el-input>
-      </el-form-item>
-
-
-
-      <el-form-item label="状态">
-        <el-input style="width: 200px"
-                  placeholder="是否在库" v-model="ruleForm.status"></el-input>
-      </el-form-item>
-
-      <el-form-item label="上传图片">
-        <el-upload v-model="ruleForm.cover"
-                   action="http://localhost:9080/v1/admin/fileType"
-                   name="file"
-                   :limit=1
-                   list-type="picture-card"
-                   :on-success="handleSuccess"
-                   :on-preview="handlePictureCardPreview"
-                   :on-remove="handleRemove">
-          <i class="el-icon-plus"></i>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="书名">
+            <el-input style="width: 100%" placeholder="请输入书名" v-model="ruleForm.name"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="作者">
+            <el-input style="width: 100%" placeholder="请输入作者名字" v-model="ruleForm.author"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="图书馆ID">
+            <el-input style="width: 100%" placeholder="请输入图书馆ID" v-model="ruleForm.libraryId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="出版社">
+            <el-input style="width: 100%" placeholder="请输入出版社" v-model="ruleForm.publisher"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="用户ID">
+            <el-input style="width: 100%" placeholder="请输入用户ID" v-model="ruleForm.userId"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="出版日期">
+            <el-date-picker style="width: 100%" v-model="ruleForm.publishTime" type="date" placeholder="选择日期"></el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <el-form-item label="入库数量">
+            <el-input style="width: 100%" placeholder="请输入入库数量" v-model="ruleForm.storeAmount"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="状态">
+            <el-input style="width: 100%" placeholder="是否在库" v-model="ruleForm.status"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <el-form-item label="详情介绍">
+            <el-input type="textarea" :rows="3" style="width: 100%" placeholder="请输入详情介绍" v-model="ruleForm.introduction"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <div class="container">
+        <el-upload
+            style="margin-left: 118px;"
+            v-model="ruleForm.cover"
+            drag
+            action="http://localhost:9080/v1/admin/fileType"
+            :on-success="handleSuccess"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove"
+            multiple>
+          <i class="el-icon-upload"></i>
+          <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+          <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
         </el-upload>
-      </el-form-item>
+        <el-button @click="post()" class="upload-button" size="small" type="primary">点击上传</el-button>
+      </div>
 
-      <br>
-      <el-button @click="post()" style="margin: 20px" size="small" type="primary">点击上传</el-button>
     </el-form>
   </div>
 </template>
@@ -107,19 +107,34 @@ export default {
         gmtCreate:''                           //'数据创建时间',
       },
       // 表单规则
-      rules: {
-        // name:'',                                        // '书名',
-        // author:'',                                       //  '作者',
-        // publisher:'',                                     //'出版社',
-        // libraryId:'',                                       //'图书馆ID',
-        // categoryId:'',                                     //'分类ID',
-        // status:'',                                        //'状态(在库,借出)',
-        // cover:'',                                         //'书籍封面',
-        // publishTime:'',                             //'出版日期',
-        // storeAmount:'',                                  //'库存数量',
-        // introduction:'',                                //'详细介绍',
-        // gmtCreate:''
-      }
+      // rules: {
+      //   name: [
+      //     {required: true, message: '请输入书名', trigger: 'blur'},
+      //     {pattern: /^[\u4e00-\u9fa5]{2,10}/, message: '不允许使用英文和特殊符号', trigger: 'blur'}
+      //   ],
+      //   cover: [
+      //     {required: true, message: '请上传图书封面', trigger: 'blur'},
+      //     {pattern: /^[\u4e00-\u9fa5]{2,10}/, message: '图书封面不能为空!', trigger: 'blur'}
+      //   ],
+      //   author: [
+      //     {required: true, message: '请输入作者名', trigger: 'blur'},
+      //     {pattern: /^[\u4e00-\u9fa5]{2,10}/, message: '不允许使用特殊符号', trigger: 'blur'}
+      //   ],
+      //   libraryId: [
+      //     {required: true, message: '请输入图书馆名称', trigger: 'blur'},
+      //     {pattern: /^[\u4e00-\u9fa5]{2,10}/, message: '不允许使用特殊符号', trigger: 'blur'}
+      //   ],
+      //   // author:'',                                       //  '作者',
+      //   publisher:'',                                     //'出版社',
+      //   // libraryId:'',                                       //'图书馆ID',
+      //   categoryId:'',                                     //'分类ID',
+      //   status:'',                                        //'状态(在库,借出)',
+      //   // cover:'',                                         //'书籍封面',
+      //   publishTime:'',                             //'出版日期',
+      //   storeAmount:'',                                  //'库存数量',
+      //   introduction:'',                                //'详细介绍',
+      //   gmtCreate:'',                                   // 创建时间
+      // }
     };
   },
   methods: {
@@ -165,3 +180,20 @@ export default {
 
 }}
 </script>
+<style>
+.container {
+  display: flex;
+  /*justify-content: space-between;*/
+  align-items: center;
+  margin-bottom: 20px; /* 为容器底部添加一定的间距 */
+}
+
+/*.upload-component {*/
+/*  margin-right: 100px; !* 将上传组件与右侧的按钮保持一定的间距 *!*/
+/*}*/
+
+.upload-button {
+  margin-left: 118px; /* 根据您的需求进行左侧间距调整 */
+  margin-right: 1500px; /* 根据您的需求进行右侧间距调整 */
+}
+</style>

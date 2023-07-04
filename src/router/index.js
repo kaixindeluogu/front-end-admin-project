@@ -69,16 +69,19 @@ const routes = [
             },
             {
                 path: 'libraryDataStatistics',
-                component: () => import('../views/LibraryDataStatistics/LibraryDataStatistics.vue')
+                component: () => import('../views/BookAdminLibraryDataStatistics/LibraryDataStatistics.vue')
             },
             {
                 path: 'OrderApproval',
                 component: () => import('../views/BookAdminOrderApproval/OrderApprovalView.vue')
+            },
+            {
+                path: 'ReservationList',
+                component: () => import('../views/BookAdminOrder/ReservationList.vue'),
             }
 
         ]
     },
-
 
     {
         path: '/login',
@@ -87,8 +90,6 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
     },
-
-
 ]
 
 const router = new VueRouter({

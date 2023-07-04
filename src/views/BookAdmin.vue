@@ -32,7 +32,10 @@
               <span slot="title">图书馆数据统计</span>
             </el-menu-item>
 
-
+            <el-menu-item index="/bookadmin/reservationList">
+              <i class="el-icon-menu"></i>
+              <span slot="title">订单展示</span>
+            </el-menu-item>
 
             <el-submenu index="2">
               <template slot="title">
