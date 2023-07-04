@@ -29,7 +29,9 @@ export default {
   },
   methods: {
     bannerList() {
-      this.axios.post("http://localhost:9080/v1/admin/banner/list").then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .post("http://localhost:9080/v1/admin/banner/list").then((response) => {
         if (response.data.state == 20000) {
           this.bannerArr = response.data.data;
           // 使用 Fetch API 获取图片
@@ -41,7 +43,9 @@ export default {
     handleDelete(row) {
       // 处理删除操作
       if (confirm("您确认删除吗?")){
-        this.axios.get("http://localhost:9080/v1/admin/banner/"+row.id+"/delete")
+        this.axios
+            .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+            .get("http://localhost:9080/v1/admin/banner/"+row.id+"/delete")
             .then((response) => {
 
               if (response.data.state == 20000) {

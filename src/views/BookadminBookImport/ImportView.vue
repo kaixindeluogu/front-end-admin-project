@@ -137,7 +137,9 @@ export default {
       }
       //发出删除文件的请求   file.response上传成功时服务器响应的内容ResultVO
       console.log(file.response);
-      axios.get("http://localhost:9080/v1/admin/fileType/removeType?url=" + file.response.data).then(function () {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .get("http://localhost:9080/v1/admin/fileType/removeType?url=" + file.response.data).then(function () {
         console.log("服务器文件删除完成!");
       })
     },
@@ -149,7 +151,9 @@ export default {
 
     // 提交表单
     post() {
-      this.axios.post("http://localhost:9080/v1/admin/books/uploadType", this.ruleForm).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .post("http://localhost:9080/v1/admin/books/uploadType", this.ruleForm).then((response) => {
         if (response.data.state == 20000) {
           this.$message.success("添加成功!");
           location.reload();

@@ -77,7 +77,9 @@ export default {
       let url = 'http://localhost:9080/v1/bookadmin/book/' + tableItem.id;
       console.log('url = ' + url);
 
-      this.axios.post(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .post(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.state == 20000) {
           this.editForm = jsonResult.data;
@@ -99,7 +101,9 @@ export default {
       /*let formData = this.qs.stringify(this.editForm);
       console.log('formData = ' + formData);*/
 
-      this.axios.post(url,this.editForm).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .post(url,this.editForm).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.state == 20000) {
           this.$message({
@@ -127,7 +131,9 @@ export default {
     },
     //查询图书馆书籍
     bookList() {
-      this.axios.post("http://localhost:9080/v1/bookadmin/book/1/list").then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .post("http://localhost:9080/v1/bookadmin/book/"+ localStorage.getItem('id')+"/list").then((response) => {
         if (response.data.state == 20000) {
           this.bookArr = response.data.data;
 
@@ -139,7 +145,9 @@ export default {
     handleDelete(row) {
       // 处理删除操作
       if (confirm("您确认删除吗?")){
-        this.axios.post("http://localhost:9080/v1/bookadmin/book/"+row.id+"/delete")
+        this.axios
+            .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+            .post("http://localhost:9080/v1/bookadmin/book/"+localStorage.getItem('id')+"/delete")
             .then((response) => {
 
               if (response.data.state == 20000) {
