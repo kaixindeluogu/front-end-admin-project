@@ -45,6 +45,12 @@ export default {
       if (confirm("您确认删除吗?")){
         this.axios
             .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+            .get("http://localhost:9080/v1/admin/file/remove?url=" + row.imgUrl).then(function () {
+          console.log("服务器文件删除完成!");
+        })
+
+        this.axios
+            .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
             .get("http://localhost:9080/v1/admin/banner/"+row.id+"/delete")
             .then((response) => {
 

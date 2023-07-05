@@ -55,10 +55,6 @@ export default {
     };
   },
   methods: {
-      console.log(file.headers);
-      return true;
-    },
-
     handleSuccess(response, file, fileList) {
       console.log(file);
       //把上传图片完成之后 得到的图片路径用变量记录
@@ -73,7 +69,9 @@ export default {
       }
       //发出删除文件的请求   file.response上传成功时服务器响应的内容ResultVO
       console.log(file.response);
-      axios.get("http://localhost:9080/v1/admin/file/remove?url=" + file.response.data).then(function () {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .get("http://localhost:9080/v1/admin/file/remove?url=" + file.response.data).then(function () {
         console.log("服务器文件删除完成!");
       })
     },
