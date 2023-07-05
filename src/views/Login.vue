@@ -2,11 +2,11 @@
   <div class="login-page">
     <div class="login-box">
       <el-form ref="user" :model="user" label-width="80px" style="width: 400px;margin: 50px 10px 50px; ">
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="user.username"></el-input>
+        <el-form-item label="用户名" prop="username" style="color: cadetblue" >
+          <el-input v-model="user.username" style="width: 220px"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password" >
-          <el-input type="password" v-model="user.password"></el-input>
+          <el-input type="password" v-model="user.password" style="width: 220px"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="login">登录</el-button>
@@ -108,17 +108,15 @@ export default {
 }
 
 .login-box {
+
   width: 400px;
-  background-color: rgba(255, 255, 255, 0.24);
-  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
   padding: 30px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.logo {
-  text-align: center;
-  margin-bottom: 30px;
-}
+
 
 .forget-password,
 .register {
