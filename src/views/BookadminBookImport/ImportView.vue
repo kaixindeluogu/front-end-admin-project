@@ -24,8 +24,8 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="图书馆ID">
-            <el-input style="width: 100%" placeholder="请输入图书馆ID" v-model="ruleForm.libraryId"></el-input>
+          <el-form-item label="出版日期">
+            <el-date-picker style="width: 100%" v-model="ruleForm.publishTime" type="date" placeholder="选择日期"></el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -34,18 +34,14 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row>
-        <el-col :span="12">
-          <el-form-item label="用户ID">
-            <el-input style="width: 100%" placeholder="请输入用户ID" v-model="ruleForm.userId"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item label="出版日期">
-            <el-date-picker style="width: 100%" v-model="ruleForm.publishTime" type="date" placeholder="选择日期"></el-date-picker>
-          </el-form-item>
-        </el-col>
-      </el-row>
+<!--      <el-row>-->
+<!--        <el-col :span="12">-->
+<!--          <el-form-item label="用户ID">-->
+<!--            <el-input style="width: 100%" placeholder="请输入用户ID" v-model="ruleForm.userId"></el-input>-->
+<!--          </el-form-item>-->
+<!--        </el-col>-->
+<!--        -->
+<!--      </el-row>-->
       <el-row>
         <el-col :span="12">
           <el-form-item label="入库数量">
@@ -71,9 +67,9 @@
             v-model="ruleForm.cover"
             drag
             action="http://localhost:9080/v1/admin/fileType"
+            :headers="uploadHeaders"
             :on-success="handleSuccess"
             :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
             multiple>
           <i class="el-icon-upload"></i>
           <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -90,14 +86,16 @@
 export default {
   data() {
     return {
-
+      uploadHeaders: {
+        Authorization: localStorage.getItem('jwt'),
+      },
       // 表单
       ruleForm: {
         name:'姜炜',                                        // '书名',
         author:'崔傲',                                       //  '作者',
         userId:'1',                                         // 用户ID
         publisher:'天瑞城',                                     //'出版社',
-        libraryId:'1',                                       //'图书馆ID',
+        libraryId:'',                                       //'图书馆ID',
         categoryId:'1',                                     //'分类ID',
         status:'在库',                                        //'状态(在库,借出)',
         cover:'',                                         //'书籍封面',
@@ -107,34 +105,7 @@ export default {
         gmtCreate:''                           //'数据创建时间',
       },
       // 表单规则
-      // rules: {
-      //   name: [
-      //     {required: true, message: '请输入书名', trigger: 'blur'},
-      //     {pattern: /^[\u4e00-\u9fa5]{2,10}/, message: '不允许使用英文和特殊符号', trigger: 'blur'}
-      //   ],
-      //   cover: [
-      //     {required: true, message: '请上传图书封面', trigger: 'blur'},
-      //     {pattern: /^[\u4e00-\u9fa5]{2,10}/, message: '图书封面不能为空!', trigger: 'blur'}
-      //   ],
-      //   author: [
-      //     {required: true, message: '请输入作者名', trigger: 'blur'},
-      //     {pattern: /^[\u4e00-\u9fa5]{2,10}/, message: '不允许使用特殊符号', trigger: 'blur'}
-      //   ],
-      //   libraryId: [
-      //     {required: true, message: '请输入图书馆名称', trigger: 'blur'},
-      //     {pattern: /^[\u4e00-\u9fa5]{2,10}/, message: '不允许使用特殊符号', trigger: 'blur'}
-      //   ],
-      //   // author:'',                                       //  '作者',
-      //   publisher:'',                                     //'出版社',
-      //   // libraryId:'',                                       //'图书馆ID',
-      //   categoryId:'',                                     //'分类ID',
-      //   status:'',                                        //'状态(在库,借出)',
-      //   // cover:'',                                         //'书籍封面',
-      //   publishTime:'',                             //'出版日期',
-      //   storeAmount:'',                                  //'库存数量',
-      //   introduction:'',                                //'详细介绍',
-      //   gmtCreate:'',                                   // 创建时间
-      // }
+      rules: {}
     };
   },
   methods: {
@@ -144,19 +115,6 @@ export default {
       console.log(response.data)
       this.ruleForm.cover = response.data;
 
-    },
-    handleRemove(file, fileList) {
-      //判断删除的是图片还是视频
-      if (file.raw.type.includes("image")) {
-        this.ruleForm.cover = "";
-      }
-      //发出删除文件的请求   file.response上传成功时服务器响应的内容ResultVO
-      console.log(file.response);
-      this.axios
-          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
-          .get("http://localhost:9080/v1/admin/fileType/removeType?url=" + file.response.data).then(function () {
-        console.log("服务器文件删除完成!");
-      })
     },
     handlePictureCardPreview(file) {
       this.ruleForm.cover = file.url;
@@ -178,7 +136,30 @@ export default {
       })
     }
 
-}}
+    // // 提交表单
+    // post() {
+    //
+    //   this.axios
+    //       .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+    //       .post("http://localhost:9080/v1/admin/books/uploadType", this.ruleForm).then((response) => {
+    //     let jsonResult = response.data;
+    //     if (jsonResult.state == 20000) {
+    //       this.$message.success("添加成功!");
+    //       location.reload();
+    //     } else {
+    //       let title = '操作失败';
+    //       this.$alert(jsonResult.message, title, {
+    //         confirmButtonText: '确定',
+    //         callback: action => {
+    //         }
+    //       });
+    //     }
+    //   })
+    // }
+  }
+}
+
+
 </script>
 <style>
 .container {
