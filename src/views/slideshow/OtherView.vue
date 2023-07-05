@@ -43,6 +43,7 @@ export default {
     handleDelete(row) {
       // 处理删除操作
       if (confirm("您确认删除吗?")){
+        //删除minio服务器图片
         this.axios
             .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
             .get("http://localhost:9080/v1/admin/file/remove?url=" + row.imgUrl).then(function () {
