@@ -34,14 +34,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-<!--      <el-row>-->
-<!--        <el-col :span="12">-->
-<!--          <el-form-item label="用户ID">-->
-<!--            <el-input style="width: 100%" placeholder="请输入用户ID" v-model="ruleForm.userId"></el-input>-->
-<!--          </el-form-item>-->
-<!--        </el-col>-->
-<!--        -->
-<!--      </el-row>-->
       <el-row>
         <el-col :span="12">
           <el-form-item label="入库数量">
@@ -94,8 +86,8 @@ export default {
         name:'姜炜',                                        // '书名',
         author:'崔傲',                                       //  '作者',
         userId:'1',                                         // 用户ID
+        libraryId:'',
         publisher:'天瑞城',                                     //'出版社',
-        libraryId:'',                                       //'图书馆ID',
         categoryId:'1',                                     //'分类ID',
         status:'在库',                                        //'状态(在库,借出)',
         cover:'',                                         //'书籍封面',
@@ -124,38 +116,27 @@ export default {
 
     // 提交表单
     post() {
+      // this.ruleForm.libraryId = localStorage.getItem('id')
+      let url = 'http://localhost:9080/v1/admin/books/uploadType';
+      console.log('url = ' + url);
       this.axios
-          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
-          .post("http://localhost:9080/v1/admin/books/uploadType", this.ruleForm).then((response) => {
-        if (response.data.state == 20000) {
-          this.$message.success("添加成功!");
-          location.reload();
-        } else {
-          this.$message.error("导入失败,请重新导入!")
-        }
-      })
+        .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+        .post(url, this.ruleForm,this.ruleForm.libraryId = localStorage.getItem('id') )  // 将 this.ruleForm 作为请求的数据进行传递
+        .then((response) => {
+        let jsonResult = response.data;
+            if (jsonResult.state == 20000) {
+              this.$message.success("添加成功!");
+              location.reload();
+            } else {
+              let title = '操作失败';
+              this.$alert(jsonResult.message, title, {
+                confirmButtonText: '确定',
+                callback: action => {
+                }
+              });
+            }
+          });
     }
-
-    // // 提交表单
-    // post() {
-    //
-    //   this.axios
-    //       .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
-    //       .post("http://localhost:9080/v1/admin/books/uploadType", this.ruleForm).then((response) => {
-    //     let jsonResult = response.data;
-    //     if (jsonResult.state == 20000) {
-    //       this.$message.success("添加成功!");
-    //       location.reload();
-    //     } else {
-    //       let title = '操作失败';
-    //       this.$alert(jsonResult.message, title, {
-    //         confirmButtonText: '确定',
-    //         callback: action => {
-    //         }
-    //       });
-    //     }
-    //   })
-    // }
   }
 }
 
