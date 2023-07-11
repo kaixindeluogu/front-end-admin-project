@@ -10,8 +10,8 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="login">登录</el-button>
-          <a href="/forgetPassword" class="forget-password">忘记密码</a>
-          <a href="/reg" class="register">注册账号</a>
+<!--          <a href="/forgetPassword" class="forget-password">忘记密码</a>-->
+<!--          <a href="/reg" class="register">注册账号</a>-->
         </el-form-item>
       </el-form>
 
@@ -52,9 +52,9 @@ export default {
           if (localStorage.getItem("authority") == 'user') {
             this.$router.push('/')
           }else if (localStorage.getItem("authority") == 'admin'){
-            window.location.href='http://localhost:9088/home'
+            window.location.href='http://localhost:9098/home'
           }else if (localStorage.getItem("authority") == 'bookadmin'){
-            window.location.href='http://localhost:9088/bookadmin'
+            window.location.href='http://localhost:9091/bookadmin'
           }
 
 
