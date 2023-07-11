@@ -9,7 +9,7 @@
           <el-input type="password" v-model="user.password" style="width: 220px"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="login">登录</el-button>
+          <el-button type="primary" @click="login">管理员登录</el-button>
 <!--          <a href="/forgetPassword" class="forget-password">忘记密码</a>-->
 <!--          <a href="/reg" class="register">注册账号</a>-->
         </el-form-item>
@@ -50,7 +50,7 @@ export default {
           console.log(localStorage.getItem("jwt"));
           console.log(localStorage.getItem("authority"))
           if (localStorage.getItem("authority") == 'user') {
-            this.$router.push('/')
+            this.$message.error("您没有登录权限,请前往用户登录页面!")
           }else if (localStorage.getItem("authority") == 'admin'){
             window.location.href='http://localhost:9098/home'
           }else if (localStorage.getItem("authority") == 'bookadmin'){
