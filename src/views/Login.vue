@@ -52,7 +52,7 @@ export default {
           if (localStorage.getItem("authority") == 'user') {
             this.$message.error("您没有登录权限,请前往用户登录页面!")
           }else if (localStorage.getItem("authority") == 'admin'){
-            window.location.href='http://localhost:9098/home'
+            window.location.href='http://localhost:9091/home'
           }else if (localStorage.getItem("authority") == 'bookadmin'){
             window.location.href='http://localhost:9091/bookadmin'
           }
