@@ -2,7 +2,7 @@
   <div class="login-page">
     <div class="login-box">
       <el-form ref="user" :model="user" label-width="80px" style="width: 400px;margin: 50px 10px 50px; ">
-        <el-form-item label="用户名" prop="username" style="color: cadetblue" >
+        <el-form-item label="用户名" prop="username" >
           <el-input v-model="user.username" style="width: 220px"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password" >
@@ -121,5 +121,21 @@ export default {
 .forget-password,
 .register {
   margin-left: 20px;
+}
+/*文字颜色*/
+.el-form-item__label{
+  color: skyblue;
+}
+
+/* 输入框透明*/
+.login-box input[type="text"],
+.login-box input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  margin-bottom: 10px;
 }
 </style>

@@ -120,7 +120,7 @@ export default {
         console.log('文件是图片');
         this.ruleForm.cover = response.data;
         console.log(this.ruleForm.cover)
-      } else if (extension === 'pdf'|| extension === 'pptx') {
+      } else if (extension === 'pdf') {
         // 文件是PDF
         console.log('文件是PDF');
         this.ruleForm.pdfUrl = response.data;
