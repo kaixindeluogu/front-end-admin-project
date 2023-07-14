@@ -1,187 +1,206 @@
 <template>
   <div>
-    <div class="about">
-      <div>
-        <el-table
-            :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-            style="width: 100%">
-          <el-table-column
-              label="id" prop="id"></el-table-column>
-
-          <el-table-column
-              label="图书馆名" prop="name"></el-table-column>
-          <el-input v-model="editForm.name"></el-input>
-
-          <el-table-column
-              label="图书分类" prop="categoryId"></el-table-column>
-          <el-input v-model="editForm.categoryId"></el-input>
-          <el-table-column
-              label="书籍库存量" prop="storeAmount"></el-table-column>
-          <el-input v-model="editForm.storeAmount"></el-input>
-          <el-table-column
-              label="借阅量" prop="borrowingVolume"></el-table-column>
-          <el-input v-model="editForm.borrowingVolume"></el-input>  <el-table-column
-              label="图书馆点击量" prop="clickNum"></el-table-column>
-          <el-input v-model="editForm.clickNum"></el-input>
-          <el-table-column align="right">
-            <template slot="header" slot-scope="scope">
-              <el-input v-model="search" size="mini" placeholder="输入关键字搜索"/></template>
-<!--            <template slot-scope="scope">-->
-<!--              <el-button size="mini" type="danger" @click="openDeleteConfirm(scope.row)">删除</el-button>-->
-<!--            </template>-->
-          </el-table-column>
-        </el-table>
-
-      </div>
-    </div>
-
-    <!-- 分页控件 -->
-    <div style="margin: 10px 0; text-align: right;">
-      <el-pagination
-          @current-change="changePage"
-          layout="total, prev, pager, next"
-          :hide-on-single-page="true"
-          :page-size="pageSize"
-          :current-page="currentPage"
-          :total="total">
-      </el-pagination>
-    </div>
-
-
-
-
+    <!-- 顶部面包屑标识与导航 -->
+    <el-breadcrumb separator-class="el-icon-arrow-right" style="font-size: 16px;">
+      <el-breadcrumb-item :to="{ path: '/' }">
+        <i class="el-icon-s-promotion"></i> 后台管理
+      </el-breadcrumb-item>
+      <el-breadcrumb-item>数据统计</el-breadcrumb-item>
+    </el-breadcrumb>
+    <el-divider></el-divider>
+    <div id="main" style="width: 1000px;height:800px"></div>
   </div>
-
-
-
 </template>
-
 
 <script>
 
 export default {
-  methods: {
-    handleEdit(){
-      this.value = 1;
-    },
-    changePage(page) {
-      this.$router.replace('?page=' + page);
-      this.loadReportList();
-    },
-    openDeleteConfirm(tableItem) {
-      let message = '把他永久删除 , 你确定？';
-      this.$confirm(message, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.handleDelete(tableItem);
-      }).catch(() => {
-      });
-    },
-    handleDelete(tableItem) {
-      let url = 'http://localhost:9088/v1/bookadmin/libraryDataStatistics/' + tableItem.id + '/delete';
-      console.log('url = ' + url);
 
-      this.axios
-          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
-          .post(url).then((response) => {
-        let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
-          this.$message({
-            message: '删除成功！',
-            type: 'success'
-          });
-          this.loadReportList();
-        } else {
-          let title = '操作失败';
-          this.$alert(jsonResult.message, title, {
-            confirmButtonText: '确定',
-            callback: action => {
-            }
-          });
-        }
-      });
-    },
-    loadReportList() {
-      let page = this.$router.currentRoute.query.page;
-      if (!page) {
-        page = 1;
-      }
-
-      let url = 'http://localhost:9088/v1/bookadmin/libraryDataStatistics/list/select/Type?page=' + page;
-      console.log('url = ' + url);
-
-      this.axios
-          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
-          .get(url).then((response) => {
-        let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
-          this.tableData = jsonResult.data.list;
-          this.currentPage = jsonResult.data.currentPage;
-          this.pageSize = jsonResult.data.pageSize;
-          this.total = jsonResult.data.total;
-        } else {
-          let title = '操作失败';
-          this.$alert(jsonResult.message, title, {
-            confirmButtonText: '确定',
-            callback: action => {
-            }
-          });
-        }
-      });
-    }
-  },
-  mounted() {
-    this.loadReportList();
-  },
   data() {
     return {
-      value: 0,
-      tableData: [],
-      search:'',
-      // 分页相关数据
-      currentPage: this.$router.currentRoute.query.page ? parseInt(this.$router.currentRoute.query.page) : 1,
-      pageSize: 20,
-      total: 0,
-      // 详情数据
-      // 编辑对话框相关数据
-      editForm: {
-        Id:'',
-        name: '',
-        categoryId:'',
-        storeAmount:'',
-        borrowingVolume:'',
-        clickNum:'',
 
-      },
     }
+  },
+  methods: {
+
+    initEcharts(){
+
+      let app = {};
+
+      let chartDom = document.getElementById('main');
+      let myChart = this.echarts.init(chartDom);
+      let option;
+
+      const posList = [
+        'left',
+        'right',
+        'top',
+        'bottom',
+        'inside',
+        'insideTop',
+        'insideLeft',
+        'insideRight',
+        'insideBottom',
+        'insideTopLeft',
+        'insideTopRight',
+        'insideBottomLeft',
+        'insideBottomRight'
+      ];
+      app.configParameters = {
+        rotate: {
+          min: -90,
+          max: 90
+        },
+        align: {
+          options: {
+            left: 'left',
+            center: 'center',
+            right: 'right'
+          }
+        },
+        verticalAlign: {
+          options: {
+            top: 'top',
+            middle: 'middle',
+            bottom: 'bottom'
+          }
+        },
+        position: {
+          options: posList.reduce(function (map, pos) {
+            map[pos] = pos;
+            return map;
+          }, {})
+        },
+        distance: {
+          min: 0,
+          max: 100
+        }
+      };
+      app.config = {
+        rotate: 90,
+        align: 'left',
+        verticalAlign: 'middle',
+        position: 'insideBottom',
+        distance: 15,
+        onChange: function () {
+          const labelOption = {
+            rotate: app.config.rotate,
+            align: app.config.align,
+            verticalAlign: app.config.verticalAlign,
+            position: app.config.position,
+            distance: app.config.distance
+          };
+          myChart.setOption({
+            series: [
+              {
+                label: labelOption
+              },
+              {
+                label: labelOption
+              },
+              {
+                label: labelOption
+              },
+              {
+                label: labelOption
+              }
+            ]
+          });
+        }
+      };
+      const labelOption = {
+        show: true,
+        position: app.config.position,
+        distance: app.config.distance,
+        align: app.config.align,
+        verticalAlign: app.config.verticalAlign,
+        rotate: app.config.rotate,
+        formatter: '{c}  {name|{a}}',
+        fontSize: 16,
+        rich: {
+          name: {}
+        }
+      };
+      option = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        legend: {
+          data: ['点击量', '图书贮存量', '图书借阅量']
+        },
+        toolbox: {
+          show: true,
+          orient: 'vertical',
+          left: 'right',
+          top: 'center',
+          feature: {
+            mark: { show: true },
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar', 'stack'] },
+            restore: { show: true },
+            saveAsImage: { show: true }
+          }
+        },
+        xAxis: [
+          {
+            type: 'category',
+            axisTick: { show: false },
+            data: ['蓝翔图书馆', '飞翔图书馆', '翱翔图书馆', '纸片图书馆', '清华图书馆']
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: [
+          {
+            name: '点击量',
+            type: 'bar',
+            barGap: 0,
+            label: labelOption,
+            emphasis: {
+              focus: 'series'
+            },
+            data: [320, 332, 301, 334, 390]
+          },
+          {
+            name: '图书贮存量',
+            type: 'bar',
+            label: labelOption,
+            emphasis: {
+              focus: 'series'
+            },
+            data: [220, 182, 191, 234, 290]
+          },
+          {
+            name: '图书借阅量',
+            type: 'bar',
+            label: labelOption,
+            emphasis: {
+              focus: 'series'
+            },
+            data: [150, 232, 201, 154, 190]
+          }
+        ]
+      };
+
+      option && myChart.setOption(option);
+
+
+    },
+
+
+  },
+  mounted() {
+    this.initEcharts();
   }
 }
 </script>
 
 <style scoped>
-@media screen and (min-width: 1970px) {
-  .idxs {
-    margin: 60px auto;
-    width: calc(100% - 290px);
-    max-width: 1570px;
-    min-width: 1200px;
-  }
-}
-
-@media screen and (max-width: 1969px) {
-  .idxs {
-
-    width: calc(100% - 290px);
-    max-width: 1570px;
-    min-width: 1200px;
-    margin: 60px auto;
-  }
-
-  .idxs {
-    margin-left: 50px;
-  }
-}
 
 </style>
