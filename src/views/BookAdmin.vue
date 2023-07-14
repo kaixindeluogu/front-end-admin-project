@@ -1,8 +1,9 @@
 <template>
   <div>
     <el-container>
-      <el-header class="header">
-        <h1>图书馆后台管理</h1>
+      <el-header class="header" style="display: flex; justify-content: space-between;">
+        <h1>纸片图书管理系统</h1>
+        <p  icon="el-icon-close" @click="openLogoutConfirm()">退出登录</p>
       </el-header>
       <el-container class="body">
         <el-aside class="aside">
@@ -63,6 +64,35 @@
   </div>
 
 </template>
+
+<script>
+export default {
+  methods: {
+    openLogoutConfirm() {
+      //todo跳出弹框,并确认是否登出
+      this.$confirm('您将退出个人信息登录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        localStorage.removeItem("jwt")
+        this.$message({
+          type: 'success',
+          message: '已退出登录!'
+        });
+        this.$router.replace('/')
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消退出登录'
+        });
+      });
+
+    }
+  }
+}
+
+</script>
 
 <style>
 .header{background: #2c3e50;color: #fff;line-height: 60px;}
