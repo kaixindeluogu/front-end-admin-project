@@ -3,9 +3,6 @@
     <!-- 顶部的面包屑导航 -->
     <el-breadcrumb separator-class="el-icon-arrow-right" style="font-size: 16px;">
       <el-breadcrumb-item :to="{ path: '/' }">主页</el-breadcrumb-item>
-      <el-breadcrumb-item>管理</el-breadcrumb-item>
-      <el-breadcrumb-item>订单管理</el-breadcrumb-item>
-      <el-breadcrumb-item>订单列表</el-breadcrumb-item>
     </el-breadcrumb>
     <el-divider></el-divider>
 
@@ -83,7 +80,9 @@ export default {
       let url = 'http://localhost:9080/v1/admin/reservation/' + tableItem.id + '/delete';
       console.log('url = ' + url);
 
-      this.axios.post(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .post(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.state == 20000) {
           this.$message({
@@ -113,7 +112,9 @@ export default {
       let url = 'http://localhost:9080/v1/admin/reservation/list?page=' + page;
       console.log('url = ' + url);
 
-      this.axios.get(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .get(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.state == 20000) {
           this.tableData = jsonResult.data.list;
