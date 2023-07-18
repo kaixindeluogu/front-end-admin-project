@@ -3,6 +3,7 @@
     <el-container>
       <el-header class="header" style="display: flex; justify-content: space-between;">
         <h1>纸片图书管理系统</h1>
+        <p class="user1">当前用户为{{ username }},</p>
         <p  icon="el-icon-close" @click="openLogoutConfirm()">退出登录</p>
       </el-header>
       <el-container class="body">
@@ -67,6 +68,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      username: localStorage.getItem("username")
+    }
+  },
   methods: {
     openLogoutConfirm() {
       //todo跳出弹框,并确认是否登出
@@ -95,6 +101,10 @@ export default {
 </script>
 
 <style>
+.user1{
+  position: relative;
+  padding-left:1050px ;
+}
 .header{background: #2c3e50;color: #fff;line-height: 60px;}
 .body { position: absolute;top: 60px;bottom: 0;left: 0;right: 0;}
 .aside {background: #425c79}
