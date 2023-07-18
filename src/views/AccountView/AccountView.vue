@@ -5,16 +5,13 @@
       <el-table-column prop="id" label="用户ID" ></el-table-column>
       <el-table-column prop="userName" label="用户名" ></el-table-column>
       <el-table-column prop="nickName" label="昵称" ></el-table-column>
-      <el-table-column prop="authority" label="权限管理" width="100">
+      <el-table-column prop="authority" label="权限管理" width="145">
         <template slot-scope="scope">
-          <el-switch
-              @change="toggleEnable(scope.row)"
-              v-model="scope.row.admin"
-              :active-value="1"
-              :inactive-value="0"
-              active-color="#13ce66"
-              inactive-color="#a9a9a9">
-          </el-switch>
+          <el-select  @change="toggleEnable(scope.row)" v-model="scope.row.admin">
+            <el-option label="用户"        :value="0"></el-option>
+            <el-option label="作家"       :value="1"></el-option>
+            <el-option label="管理员"        :value="2"></el-option>
+          </el-select>
         </template>
       </el-table-column>
       <el-table-column fixed="right" label="操作" align="center" width="170">
@@ -51,6 +48,8 @@
 export default {
   data() {
     return {
+
+      value2: 0,
       // 编辑对话框相关数据
       dialogFormVisible: false,
       form: {
@@ -197,12 +196,14 @@ export default {
     //修改权限
     toggleEnable(item) {
       alert("你将修改此用户的权限.");
-      let enableText = ['禁用','启用'];
+      let enableText = ['用户','作家' , '管理员'];
       let url = 'http://localhost:9080/content/users/'+item.id
       if (item.admin === 0){
         url += '/enable'
-      }else {
+      }else if (item.admin === 1){
         url += '/disable'
+      }else {
+        url += '/Admin'
       }
 
       console.log('url = '+url);
