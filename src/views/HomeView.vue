@@ -1,8 +1,10 @@
 <template>
   <div>
     <el-container>
-      <el-header class="header">
+      <el-header class="header" style="display: flex; justify-content: space-between;">
         <h1>纸片图书管理系统</h1>
+        <p class="user">当前用户为{{ username }},</p>
+        <p icon="el-icon-close" @click="openLogoutConfirm()">退出登录</p>
       </el-header>
       <el-container class="body">
         <el-aside class="aside">
@@ -25,7 +27,6 @@
                 <el-menu-item index="/home/other">轮播图管理</el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-
 
 
             <el-menu-item index="/home/account">
@@ -51,10 +52,7 @@
               <i class="el-icon-setting"></i>
               <span slot="title">图书馆审核管理</span>
             </el-menu-item>
-            <el-menu-item index="/bookadmin">
-              <i class="el-icon-setting"></i>
-              <span slot="title">图书馆后台管理</span>
-            </el-menu-item>
+
 
           </el-menu>
         </el-aside>
@@ -67,16 +65,77 @@
   </div>
 
 </template>
+<script>
+export default {
+  data() {
+    return {
+      username: localStorage.getItem("username")
+    }
+  },
+  methods: {
+    openLogoutConfirm() {
+      //todo跳出弹框,并确认是否登出
+      this.$confirm('您将退出个人信息登录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        localStorage.removeItem("jwt")
+        this.$message({
+          type: 'success',
+          message: '已退出登录!'
+        });
+        this.$router.replace('/')
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消退出登录'
+        });
+      });
+
+    }
+  }
+}
+
+</script>
 
 <style>
-.header{background: #2c3e50;color: #fff;line-height: 60px;}
-.body { position: absolute;top: 60px;bottom: 0;left: 0;right: 0;}
-.aside {background: #425c79}
-.aside .el-menu{border: 0}
+
+.header {
+  background: #2c3e50;
+  color: #fff;
+  line-height: 60px;
+
+}
+.user{
+  position: relative;
+  padding-left:1050px ;
+}
+
+.body {
+  position: absolute;
+  top: 60px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.aside {
+  background: #425c79
+}
+
+.aside .el-menu {
+  border: 0
+}
+
 .el-menu i {
   color: #fff !important;
 }
-.el-menu.is-active{}
-.main {}
+
+.el-menu.is-active {
+}
+
+.main {
+}
 </style>
 

@@ -61,7 +61,9 @@ export default {
       let url = 'http://localhost:9080/library/admin/rules/' + tableItem.id + '/delete';
       console.log('url = ' + url);
 
-      this.axios.post(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .post(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.state == 20000) {
           this.$message({
@@ -88,7 +90,9 @@ export default {
       let url = 'http://localhost:9080/library/admin/rules/list?page=' + page;
       console.log('url = ' + url);
 
-      this.axios.get(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .get(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.state == 20000) {
           this.tableData = jsonResult.data.list;
@@ -109,7 +113,9 @@ export default {
       let url = 'http://localhost:9080/library/admin/rules/' + tableItem.id;
       console.log('url = ' + url);
 
-      this.axios.get(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .get(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.state == 20000) {
           this.ruleForm = jsonResult.data;

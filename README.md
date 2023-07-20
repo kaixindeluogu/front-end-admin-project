@@ -1,19 +1,3 @@
-# vue-project
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 该项目为后台前端页面,端口9091
+--accountView  后台管理账户管理系统
+--BookadminorderApproval    后台管理预约信息管理

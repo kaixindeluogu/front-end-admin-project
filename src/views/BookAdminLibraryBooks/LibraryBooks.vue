@@ -1,6 +1,6 @@
 <template>
 <div>
-  <!-- 表格 -->
+  <!-- 表格,图书馆书籍展示页面 -->
   <el-table :data="bookArr"   style="width: 100%" >
     <el-table-column fixed prop="id" label="编号" width="50px"></el-table-column>
     <el-table-column prop="name" label="书名" width="200px"></el-table-column>
@@ -72,12 +72,17 @@ export default {
     };
   },
   methods: {
-    //编辑按钮显示修改图书详情
+    /**
+     * 编辑按钮显示修改图书详情
+     * @param tableItem  图书ID
+     */
     openEditDialog(tableItem) {
       let url = 'http://localhost:9080/v1/bookadmin/book/' + tableItem.id;
       console.log('url = ' + url);
 
-      this.axios.post(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .post(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.state == 20000) {
           this.editForm = jsonResult.data;
@@ -92,14 +97,18 @@ export default {
         }
       });
     },
-    //执行修改
+    /**
+     * 修改当前对象信息
+     */
     handleEdit() {
       let url = 'http://localhost:9080/v1/bookadmin/book/update';
       console.log('url = ' + url);
       /*let formData = this.qs.stringify(this.editForm);
       console.log('formData = ' + formData);*/
 
-      this.axios.post(url,this.editForm).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .post(url,this.editForm).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.state == 20000) {
           this.$message({
@@ -125,9 +134,13 @@ export default {
         }
       });
     },
-    //查询图书馆书籍
+    /**
+     * 查询当前图书馆书籍信息
+     */
     bookList() {
-      this.axios.post("http://localhost:9080/v1/bookadmin/book/1/list").then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .post("http://localhost:9080/v1/bookadmin/book/"+ localStorage.getItem('id')+"/list").then((response) => {
         if (response.data.state == 20000) {
           this.bookArr = response.data.data;
 
@@ -137,9 +150,13 @@ export default {
 
     },
     handleDelete(row) {
-      // 处理删除操作
+      /**
+       * 删除操作,根据当条信息主键ID
+       */
       if (confirm("您确认删除吗?")){
-        this.axios.post("http://localhost:9080/v1/bookadmin/book/"+row.id+"/delete")
+        this.axios
+            .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+            .post("http://localhost:9080/v1/bookadmin/book/"+row.id+"/delete")
             .then((response) => {
 
               if (response.data.state == 20000) {

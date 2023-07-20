@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import BookAdmin from "@/views/BookAdmin.vue";
 
 Vue.use(VueRouter)
 
@@ -20,7 +19,7 @@ const routes = [
                 component: () => import('../views/slideshow/OtherView.vue')
             },
             {
-                path: '/home/report',// /home/report
+                path: 'report',// /home/report
                 component: () => import('../views/reportManagement/ReportView.vue')
             },
 
@@ -69,26 +68,27 @@ const routes = [
             },
             {
                 path: 'libraryDataStatistics',
-                component: () => import('../views/LibraryDataStatistics/LibraryDataStatistics.vue')
+                component: () => import('../views/BookAdminLibraryDataStatistics/LibraryDataStatistics.vue')
             },
             {
                 path: 'OrderApproval',
-                component: () => import('../views/OrderApproval/OrderApprovalView.vue')
+                component: () => import('../views/BookAdminOrderApproval/OrderApprovalView.vue')
+            },
+            {
+                path: 'ReservationList',
+                component: () => import('../views/BookAdminOrder/ReservationList.vue'),
             }
 
         ]
     },
 
-
     {
-        path: '/login',
+        path: '/',
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "about" */ '../views/LoginView.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
     },
-
-
 ]
 
 const router = new VueRouter({

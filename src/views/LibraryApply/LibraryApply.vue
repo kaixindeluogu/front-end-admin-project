@@ -1,5 +1,7 @@
 <template>
   <div>
+
+
     <!-- 表单 -->
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
       <el-form-item label="图书馆名称" prop="name">
@@ -25,9 +27,9 @@ export default {
     return {
       // 表单
       ruleForm: {
-        name: '图书馆1',
-        address: '北京',
-        rule: '五天内需要归还'
+        name: '',
+        address: '',
+        rule: ''
       },
       // 表单规则
       rules: {
@@ -47,12 +49,14 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let url = 'http://localhost:9080/v1/admin/library/add-new';
+          let url = 'http://localhost:9080//v1/admin/library/add-new';
           console.log('url = ' + url);
           let formData = this.qs.stringify(this.ruleForm);
           console.log('formData = ' + formData);
 
-          this.axios.post(url, formData).then((response) => {
+          this.axios
+              .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+              .post(url, formData).then((response) => {
             let jsonResult = response.data;
             if (jsonResult.state == 20000) {
               this.$message({

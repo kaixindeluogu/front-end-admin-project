@@ -29,18 +29,30 @@ export default {
   },
   methods: {
     bannerList() {
-      this.axios.post("http://localhost:9080/v1/admin/banner/list").then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+          .post("http://localhost:9080/v1/admin/banner/list").then((response) => {
         if (response.data.state == 20000) {
           this.bannerArr = response.data.data;
           // 使用 Fetch API 获取图片
         }
       });
 
+
     },
     handleDelete(row) {
       // 处理删除操作
       if (confirm("您确认删除吗?")){
-        this.axios.get("http://localhost:9080/v1/admin/banner/"+row.id+"/delete")
+        //删除minio服务器图片
+        this.axios
+            .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+            .get("http://localhost:9080/v1/admin/file/remove?url=" + row.imgUrl).then(function () {
+          console.log("服务器文件删除完成!");
+        })
+
+        this.axios
+            .create({'headers': {'Authorization': localStorage.getItem('jwt')}})
+            .get("http://localhost:9080/v1/admin/banner/"+row.id+"/delete")
             .then((response) => {
 
               if (response.data.state == 20000) {
